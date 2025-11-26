@@ -2,5 +2,6 @@ veronikaD -- 2025-11-25 11:30
 Created team flag
 
 veronikaD -- 2025-12-25 11:30
-Updated README to match requirements
+Updated README to match requirements to completion
+
 
