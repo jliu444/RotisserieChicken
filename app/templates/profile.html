@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<!--
+  jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-3
+  time spent: 1.5
+ -->
+
+<html>
+  <head>
+    <title>{{ username }}'s PROFILE</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+  </head>
+  <body>
+
+    <! TEMPORARY NAV BAR, FIX ACCORDINGLY>
+    <nav>
+      <form action="/" method="POST"><input type="submit" value="GAME FLOOR"></form>
+      <form action="/profile" method="POST"><input type="submit" value="GAME FLOOR"></form>
+      <form action="/logout" method="POST"><input type="submit" value="LOG OUT"></form>
+    </nav>
+
+    <h1>{{ username }}'s Account</h1>
+
+    <form action="/charge" method="POST"><input class="button" type="submit" value="ADD TO BALANCE"></form>
+      {% if blogList %}
+      <div class = "blog-container">
+        {% for blog in blogList %}
+          <div class = "blog-preview">
+            <h3>{{ blog['title'] }}</h3>
+            <p>{{ blog['preview'] }}</p>
+            <a href="{{ url_for('view_blog', blog_id=blog['id']) }}">OPEN BLOG</a>
+            <a href="{{ url_for('edit', blog_id=blog['id']) }}">EDIT</a>
+          </div>
+        {% endfor %}
+      </div>
+      {% else %}
+        <p>You haven't written any blogs yet.</p>
+      {% endif %}
+    </div>
+
+  </body>
+</html>
