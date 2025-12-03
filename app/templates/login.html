@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Log In</title>
+  </head>
+
+  <body>
+    <h3>LOG IN PAGE</h3>
+
+    <form method='POST' action="{{ url_for ('login') }}">
+      <label>Username</label>
+      <input type="text" name="username" required>
+
+      <br>
+
+      <label>Password</label>
+      <input type="text" name="password" required>
+
+      <br>
+
+      <button type="submit">Log In</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for ('register') }}">register</a>
+  </body>
+
+</html>
