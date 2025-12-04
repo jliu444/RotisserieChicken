@@ -45,7 +45,7 @@ def login():
         if user_data == None or user_data[1] != password:
             text = "login failed"
             return render_template('login.html', text=text)
-        else:
+        else:create basic login and register templates
             session['username'] = username
             return redirect(url_for('floor'))
     return render_template('login.html', text='')
