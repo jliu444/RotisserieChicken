@@ -13,35 +13,37 @@
   <head>
     <title>{{ username }}'s PROFILE</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
   <body>
 
     <! TEMPORARY NAV BAR, FIX ACCORDINGLY>
-    <nav>
-      <form action="/" method="POST"><input type="submit" value="GAME FLOOR"></form>
-      <form action="/profile" method="POST"><input type="submit" value="GAME FLOOR"></form>
-      <form action="/logout" method="POST"><input type="submit" value="LOG OUT"></form>
+    <nav class="bg-gray-800">
+      <img src="../static/favicon.ico"
+        class="h-48 w-96 object-contain">
+      <form action="/" method="POST"><input type="submit" value="GAME FLOOR"
+        class="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"></form>
+      <form action="/profile" method="POST"><input type="submit" value="PROFILE"
+        class="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"></form>
+      <form action="/logout" method="POST"><input type="submit" value="LOG OUT"
+        class="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"></form>
     </nav>
 
     <h1>{{ username }}'s Account</h1>
 
+    <h3>Current Balance: {{ balance }}</h3>
     <form action="/charge" method="POST"><input class="button" type="submit" value="ADD TO BALANCE"></form>
-      {% if blogList %}
-      <div class = "blog-container">
-        {% for blog in blogList %}
-          <div class = "blog-preview">
-            <h3>{{ blog['title'] }}</h3>
-            <p>{{ blog['preview'] }}</p>
-            <a href="{{ url_for('view_blog', blog_id=blog['id']) }}">OPEN BLOG</a>
-            <a href="{{ url_for('edit', blog_id=blog['id']) }}">EDIT</a>
-          </div>
+
+
+      {% if game_history %}
+        {% for game in game_history %}
+            <h3>{{ game['title'] }}</h3>
+            <p>{{ game['profit'] }}</p>
         {% endfor %}
-      </div>
       {% else %}
-        <p>You haven't written any blogs yet.</p>
+        <p>You haven't played any games yet.</p>
       {% endif %}
-    </div>
 
   </body>
 </html>
