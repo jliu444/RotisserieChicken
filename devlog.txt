@@ -4,6 +4,9 @@ Created team flag
 veronikaD -- 2025-11-25 11:30
 Updated README to match requirements to completion, updated repository to have skeleton of tree
 
+cindyL -- 2025-12-1 16:47
+update design doc
+
 jakeL -- 2025-12-1 21:58
 update design doc
 
@@ -15,3 +18,5 @@ update design doc with peer revisions
     - added game_history and WL_by_game to user_info DB
     - deleted redundant API details section
 
+cindyL -- 2025-12-3 11:12
+create basic login and register templates
