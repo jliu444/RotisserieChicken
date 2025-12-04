@@ -8,20 +8,33 @@
   2025-12-3
   time spent: 1.5
  -->
-
 <html>
-  <body>
+  <head>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <h1>
     <div class="sign3">This is the Floor</div>
   </h1>
       <div class="title">Hey there, {{username}}!</div>
 
-		<button class="buttons" onclick= "document.location='/profile'">Profile</button>
-
-    <div class="forms">
-		    <form>
-          <input type="submit" formmethod="post" name="logout" value="Logout">
-      </form>
+          <nav>
+              <form action="/logout" method="POST"><input type="submit" value="LOG OUT"></form>
+          </nav>
     </div>
+  </head>
+  <body>
+    <div class="grid grid-cols-3 grid-rows-1 gap-4">
+      <div class="">Poker
+        <img src="poker.jpg" alt="poker" width="50%" height="50%">
+      </div>
+        <div class="">Blackjack
+        <img src="https://media.istockphoto.com/id/153493845/photo/blackjack.jpg?s=612x612&w=0&k=20&c=LUt6ZklfqGhYF0f3vG1dq3Xqtg2NfbnCYi-yx1CqRWc=" alt="blackjack" width="50%" height="50%">
+      </div>
+        <div class="">Tarot
+        <img src="tarot.jpg" alt="Tarot" width="50%" height="50%">
+      </div>
   </body>
+ </div>
+
 </html>
