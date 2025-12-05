@@ -23,3 +23,6 @@ create basic login and register templates
 
 cindyL -- 2025-12-4 11:45
 created login, logout, and register functions, fixed routing and misc. issues
+
+jakeL -- 2025-12-4 22:12
+update keys readme
