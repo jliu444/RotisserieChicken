@@ -35,3 +35,4 @@ updated requirements.txt
 
 cindyL -- 2025-12-5 11:19
 made logout accessible thru floor, tested functionality
+began planning for solitaire code
