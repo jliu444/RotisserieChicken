@@ -18,17 +18,16 @@
   </head>
   <body>
 
-    <! TEMPORARY NAV BAR, FIX ACCORDINGLY>
-    <nav class="bg-gray-800">
-      <img src="../static/favicon.ico"
-        class="h-48 w-96 object-contain">
-      <form action="/" method="POST"><input type="submit" value="GAME FLOOR"
-        class="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"></form>
-      <form action="/profile" method="POST"><input type="submit" value="PROFILE"
-        class="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"></form>
-      <form action="/logout" method="POST"><input type="submit" value="LOG OUT"
-        class="bg-white hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"></form>
-    </nav>
+    <div class="bg-gray-800">
+      <div class="p-5 flex flex-row">
+          <form action="/" method="POST"><input type="submit" value="GAME FLOOR"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-2 px-4 shadow-md shadow-white"></form>
+          <form action="/profile" method="POST"><input type="submit" value="PROFILE"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-2 px-4 shadow-md shadow-white"></form>
+          <form action="/logout" method="POST"><input type="submit" value="LOG OUT"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-2 px-4 shadow-md shadow-white"></form>
+      </div>
+    </div>
 
     <h1>{{ username }}'s Account</h1>
 
