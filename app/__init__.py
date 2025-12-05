@@ -29,7 +29,7 @@ def logout():
 
 @app.route('/floor', methods=["GET", "POST"])
 def floor():
-    return render_template('floor.html')
+    return render_template('floor.html', username=session['username'])
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -45,7 +45,7 @@ def login():
         if user_data == None or user_data[1] != password:
             text = "login failed"
             return render_template('login.html', text=text)
-        else:create basic login and register templates
+        else:
             session['username'] = username
             return redirect(url_for('floor'))
     return render_template('login.html', text='')

@@ -18,10 +18,6 @@
 
 		<button class="buttons" onclick= "document.location='/profile'">Profile</button>
 
-    <div class="forms">
-		    <form>
-          <input type="submit" formmethod="post" name="logout" value="Logout">
-      </form>
-    </div>
+    <a href="{{ url_for('logout') }}">log out</a>
   </body>
 </html>
