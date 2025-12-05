@@ -83,8 +83,8 @@ def profile():
 def solitaire():
     return render_template('solitaire.html',
         active = '',
+        stock='', waste='',
         f1='', f2='', f3='', f4='',
-        hand='', waste='',
         t1='', t2='', t3='', t4='', t5='', t6='', t7='',
     )
 

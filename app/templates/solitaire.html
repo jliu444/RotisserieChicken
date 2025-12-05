@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<!--Concept of this page:
+  - user selects 1 item from FOUNDATIONS, STOCK, WASTE, OR TABLEAU and calls the function
+    -> if the one item is a hidden card at the top of a tableau, show the card
+    -> if the one item is an ace at the top of a tableau, place it in foundation pile
+    -> if the one item is a stock card, place it (not hidden) on top of the waste pile
+    -> ELSE, record active card and reload page
+      -> user selects an item from FOUNDATIONS or TABLEAU and calls the function
+        -> if second item is a tableau, check if tableau is empty
+          -> if empty and active card is a King: move the item
+          -> if empty and active card is not a King: INVALID MOVE
+          -> is not empty and active card is not (same color) AND (next #): INVALID MOVE
+          -> ELSE: move the item
+        -> if second item is a FOUNDATION,
+
+-->
+
+<html>
+  <!--this is The Stock Pile -->
+  <div id="stock" class="container">
+
+  </div>
+
+  <!--this is The Waste Pile -->
+  <div id="waste" class="container">
+
+  </div>
+
+  <!--this is The 4 Foundations Piles-->
+  <div id="foundations" class="container">
+
+    <div id="foundations1">
+    </div>
+
+    <div id="foundations2">
+    </div>
+
+    <div id="foundations3">
+    </div>
+
+    <div id="foundations4">
+    </div>
+
+  </div>
+
+  <!--this is The 7 Tableau Piles-->
+  <div id="tableau" class="container">
+
+    <div id="tableau1">
+    </div>
+
+    <div id="tableau2">
+    </div>
+
+    <div id="tableau3">
+    </div>
+
+    <div id="tableau4">
+    </div>
+
+    <div id="tableau5">
+    </div>
+
+    <div id="tableau6">
+    </div>
+
+    <div id="tableau7">
+    </div>
+
+  </div>
+  <br>
+</html>
