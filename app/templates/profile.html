@@ -19,30 +19,41 @@
   <body>
 
     <div class="bg-gray-800">
-      <div class="p-5 flex flex-row">
-          <form action="/" method="POST"><input type="submit" value="GAME FLOOR"
-            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-2 px-4 shadow-md shadow-white"></form>
-          <form action="/profile" method="POST"><input type="submit" value="PROFILE"
-            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-2 px-4 shadow-md shadow-white"></form>
-          <form action="/logout" method="POST"><input type="submit" value="LOG OUT"
-            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-2 px-4 shadow-md shadow-white"></form>
+      <div class="p-5 flex flex-row justify-end">
+          <form action="/" method="POST" class="px-2"><input type="submit" value="GAME FLOOR"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="/profile" method="POST" class="px-2"><input type="submit" value="PROFILE"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="/logout" method="POST" class="px-2"><input type="submit" value="LOG OUT"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
       </div>
     </div>
 
-    <h1>{{ username }}'s Account</h1>
+    <h1 class="text-3xl text-center uppercase my-3 font-bold">{{ username }}'s Account</h1>
 
-    <h3>Current Balance: {{ balance }}</h3>
-    <form action="/charge" method="POST"><input class="button" type="submit" value="ADD TO BALANCE"></form>
+    <div class="p-5 flex flex-row">
+      <div class="my-5 mx-5 bg-gray-400">
+        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Username: {{ username }}</h3>
+        <form action="/change" method="POST" class="px-2"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="CHANGE USERNAME"></form>
+      </div>
+      <div class="my-5 mx-5 bg-gray-400">        
+        <h3 class="p-2 uppercase font-bold text-center">Current Balance: {{ balance }}</h3>
+        <form action="/charge" method="POST" class="px-2"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="ADD TO BALANCE"></form>
+      </div>
 
-
-      {% if game_history %}
-        {% for game in game_history %}
-            <h3>{{ game['title'] }}</h3>
-            <p>{{ game['profit'] }}</p>
-        {% endfor %}
-      {% else %}
-        <p>You haven't played any games yet.</p>
-      {% endif %}
-
+      <div class="my-5 mx-5 bg-gray-400">
+      <h3 class="p-2 uppercase font-bold text-center">Game History:</h3>
+          {% if game_history %}
+            {% for game in game_history %}
+                <h3>{{ game['title'] }}</h3>
+                <p>{{ game['profit'] }}</p>
+            {% endfor %}
+          {% else %}
+            <p>You haven't played any games yet.</p>
+          {% endif %}
+       </div>
+    </div>
   </body>
 </html>
