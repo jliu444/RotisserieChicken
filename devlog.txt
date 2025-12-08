@@ -39,3 +39,8 @@ began planning for solitaire code
 
 cindyL -- 2025-12-5 1:18
 more planning for solitaire code
+
+cindyL -- 2025-12-5 11:47
+tried to implement API
+changed startup to redirect
+bugs: deck of cards new deck function does not yet work

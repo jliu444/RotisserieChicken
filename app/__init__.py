@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 
 app = Flask(__name__)
@@ -20,7 +20,8 @@ def startup():
         return redirect(url_for('floor'))
     else:
         text = ""
-        return render_template('login.html', text=text)
+        return redirect(url_for('login', text=text))
+        #render_template('login.html', text=text)
 
 @app.route("/logout")
 def logout():
@@ -81,12 +82,25 @@ def profile():
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
+    deck_json = new_deck()
+    if deck_json["success"]:
+        deck_id = deck_json["deck_id"]
+        deck_size = deck_json["remaining"]
+        abc = "id: " + deck_id + "<br> deck size: " + deck_size
+    else:
+        abc = 'deck creation failed'
     return render_template('solitaire.html',
         active = '',
         stock='', waste='',
         f1='', f2='', f3='', f4='',
         t1='', t2='', t3='', t4='', t5='', t6='', t7='',
+        test_text=abc
     )
+
+def new_deck():
+    print ("ran newdeck")
+    print (requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json())
+    return requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
 
 if __name__ == "__main__":
     app.debug = True
