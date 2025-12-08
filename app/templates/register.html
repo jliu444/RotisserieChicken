@@ -7,7 +7,7 @@
   <body>
     <h3>REGISTER PAGE</h3>
 
-    <form method='POST' action="{{ url_for ('register') }}">
+    <form method='POST' action="{{ url_for('register') }}">
       <label>Username</label>
       <input type="text" name="username" required>
 
@@ -22,7 +22,8 @@
     </form>
 
     <br>
-    <a href="{{ url_for ('login') }}">back to login</a>
+    <a href="{{ url_for('login') }}">back to login</a>
+    {{text}}
   </body>
 
 </html>
