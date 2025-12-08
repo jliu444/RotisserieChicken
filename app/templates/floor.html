@@ -8,33 +8,42 @@
   2025-12-3
   time spent: 1.5
  -->
-<html>
-  <head>
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <h1>
-    <div class="sign3">This is the Floor</div>
-  </h1>
-      <div class="title">Hey there, {{username}}!</div>
-
+<html class="dark">
+  <div class="bg-white dark:bg-black">
+    <head>
+      <link rel="stylesheet" href="/static/style.css">
+      <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+      <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+      <h1>
+        <div class="sign3">This is the Floor</div>
+      </h1>
+        <div class="title">Hey there, {{username}}!</div>
           <nav>
-              <form action="/logout" method="POST"><input type="submit" value="LOG OUT"></form>
-          </nav>
-    </div>
-  </head>
-  <body>
-    <div class="grid grid-cols-3 grid-rows-1 gap-4">
-      <div class="">Poker
-        <img src="poker.jpg" alt="poker" width="50%" height="50%">
+              <a href="/login">logout</a>
+            </nav>
+          </div>
+        </head>
+        <body>
+          <div class="grid grid-cols-4
+           grid-rows-1 gap-4">
+            <div>
+              <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.fbGTnao-if09TBIvHacqqwHaDt%3Fpid%3DApi&f=1&ipt=e8b9adf90ff256d5bc2eda3866bdfafb107f18f2a8b3c0f0263ab8e99c4b053c&ipo=images" alt="Poker" width="35%" height="35%">
+              <a href="/poker">Poker</a>
+            </div>
+            <div>
+              <img src="https://media.istockphoto.com/id/153493845/photo/blackjack.jpg?s=612x612&w=0&k=20&c=LUt6ZklfqGhYF0f3vG1dq3Xqtg2NfbnCYi-yx1CqRWc=" alt="blackjack" width="35%" height="35%">
+              <a href="/blackjack">Blackjack</a>
+            </div>
+            <div>
+              <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.g9-nxjAX4oDaXygL7BiDGQHaD4%3Fpid%3DApi&f=1&ipt=2f608626c5963f57557baaeec109a77a9e4d64774042dc08653d0c1be3146ca6&ipo=images"
+              alt="Solitare" width="35%" height="35%">
+              <a href="/solitare">Solitare</a>
+            </div>
+            <div>
+              <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.yp-cbhhhbK3jwwGU3VjsYQHaFj%3Fpid%3DApi&f=1&ipt=712a855e106319a7ea1930b40db1948acf9e67992cfa6976a0d980414727744f&ipo=images" alt="Tarot" width="35%" height="35%">
+              <a href="/tarot">Tarot</a>
       </div>
-        <div class="">Blackjack
-        <img src="https://media.istockphoto.com/id/153493845/photo/blackjack.jpg?s=612x612&w=0&k=20&c=LUt6ZklfqGhYF0f3vG1dq3Xqtg2NfbnCYi-yx1CqRWc=" alt="blackjack" width="50%" height="50%">
-      </div>
-        <div class="">Tarot
-        <img src="tarot.jpg" alt="Tarot" width="50%" height="50%">
-      </div>
-  </body>
- </div>
-
+    </body>
+  </div>
+  </div>
 </html>
