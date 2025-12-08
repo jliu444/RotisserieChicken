@@ -39,3 +39,6 @@ began planning for solitaire code
 
 cindyL -- 2025-12-5 1:18
 more planning for solitaire code
+
+robertC -- 2025 - 12 - 8 11:47 
+Did floor stuff, fixed floormatting, and buttons
