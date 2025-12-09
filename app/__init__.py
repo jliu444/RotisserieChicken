@@ -80,13 +80,51 @@ def register():
 def profile():
     pass
 
+'''
+Concept:
+- add a restart button
+  - user selects 1 item from FOUNDATIONS, STOCK, WASTE, OR TABLEAU and calls the function
+    -> if the one item is a hidden card at the top of a tableau, show the card
+    -> if the one item is an ace at the top of a tableau, place it in foundation pile
+    -> if the one item is a stock card, place it (not hidden) on top of the waste pile
+    -> ELSE, record active card and reload page
+      -> user selects an item from TOP OF FOUNDATIONS or TOP OF TABLEAU and calls the function
+        -> if second item is a TABLEAU, check if tableau is empty
+          -> if empty and active card is a King: move the King
+          -> if empty and active card is not a King: INVALID MOVE
+          -> is not empty and active card is (same color) OR (not next #): INVALID MOVE
+          -> ELSE: move the item and all the cards beneath it
+          -> AFTER ALL THESE IFS, IF ACTIVE CARD IS A FOUNDATION, SHOW THE NEXT FOUNDATION CARD
+        -> if second item is a FOUNDATION:
+          -> if foundation is empty, INVALID move
+          -> if card on top of foundation is (different house) OR (not next #): INVALID move
+          -> if active card is NOT top of pile: INVALID move
+          -> ELSE: move card into foundation
+'''
+foundation_1=[]
+foundation_2=[]
+foundation_3=[]
+foundation_4=[]
+tableau_1=[]
+tableau_2=[]
+tableau_3=[]
+tableau_4=[]
+tableau_5=[]
+tableau_6=[]
+tableau_7=[]
+stock_deck=[]
+waste_deck=[]
+foundation_decks=[foundation_1, foundation_2, foundation_3, foundation_4]
+tableau_decks=[tableau_1, tableau_2, tableau_3, tableau_4, tableau_5, tableau_6, tableau_7]
+game_deck=[stock_deck, waste_deck, foundation_decks, tableau_decks]
+
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
     deck_json = new_deck()
     if deck_json["success"]:
         deck_id = deck_json["deck_id"]
         deck_size = deck_json["remaining"]
-        abc = "id: " + deck_id + "<br> deck size: " + deck_size
+        abc = "id: " + deck_id + "deck size: " + str(deck_size)
     else:
         abc = 'deck creation failed'
     return render_template('solitaire.html',
@@ -101,6 +139,9 @@ def new_deck():
     print ("ran newdeck")
     print (requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json())
     return requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
+
+def new_pile(deck_id, name):
+    return requests.get(f'https://deckofcardsapi.com/api/deck/{{deck_id}}/pile/{{name}}/add/?cards=')
 
 if __name__ == "__main__":
     app.debug = True
