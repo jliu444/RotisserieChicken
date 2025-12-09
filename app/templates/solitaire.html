@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 
 <!--Concept of this page:
+- add a restart button
   - user selects 1 item from FOUNDATIONS, STOCK, WASTE, OR TABLEAU and calls the function
     -> if the one item is a hidden card at the top of a tableau, show the card
     -> if the one item is an ace at the top of a tableau, place it in foundation pile
     -> if the one item is a stock card, place it (not hidden) on top of the waste pile
     -> ELSE, record active card and reload page
-      -> user selects an item from FOUNDATIONS or TABLEAU and calls the function
-        -> if second item is a tableau, check if tableau is empty
-          -> if empty and active card is a King: move the item
+      -> user selects an item from TOP OF FOUNDATIONS or TOP OF TABLEAU and calls the function
+        -> if second item is a TABLEAU, check if tableau is empty
+          -> if empty and active card is a King: move the King
           -> if empty and active card is not a King: INVALID MOVE
-          -> is not empty and active card is not (same color) AND (next #): INVALID MOVE
-          -> ELSE: move the item
-        -> if second item is a FOUNDATION,
-
+          -> is not empty and active card is (same color) OR (not next #): INVALID MOVE
+          -> ELSE: move the item and all the cards beneath it
+          -> AFTER ALL THESE IFS, IF ACTIVE CARD IS A FOUNDATION, SHOW THE NEXT FOUNDATION CARD
+        -> if second item is a FOUNDATION:
+          -> if foundation is empty, INVALID move
+          -> if card on top of foundation is (different house) OR (not next #): INVALID move
+          -> if active card is NOT top of pile: INVALID move
+          -> ELSE: move card into foundation
 -->
 
 <html>
