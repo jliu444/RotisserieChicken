@@ -104,6 +104,17 @@ Concept:
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
+    abc = setup_solitaire()
+    return render_template('solitaire.html',
+        active = '',
+        s='', w='',
+        f1='', f2='', f3='', f4='',
+        t1='', t2='', t3='', t4='', t5='', t6='', t7='',
+        test_text=abc
+    )
+
+@app.route('/solitaire', methods=["GET", "POST"])
+def setup_solitaire():
     # create the deck
     master_deck = new_deck()
     deck_id = ''
@@ -115,30 +126,23 @@ def solitaire():
         abc = 'deck creation failed'
 
     # create all other piles
-    stock_deck = new_pile(deck_id, 'stock_deck')
-    waste_deck = new_pile(deck_id, 'waste_deck')
-    foundation_1 = new_pile(deck_id, 'foundation_1')
-    foundation_2 = new_pile(deck_id, 'foundation_2')
-    foundation_3 = new_pile(deck_id, 'foundation_3')
-    foundation_4 = new_pile(deck_id, 'foundation_4')
-    tableau_1 = new_pile(deck_id, 'tableau_1')
-    tableau_2 = new_pile(deck_id, 'tableau_2')
-    tableau_3 = new_pile(deck_id, 'tableau_3')
-    tableau_4 = new_pile(deck_id, 'tableau_4')
-    tableau_5 = new_pile(deck_id, 'tableau_5')
-    tableau_6 = new_pile(deck_id, 'tableau_6')
-    tableau_7 = new_pile(deck_id, 'tableau_7')
+    new_pile(deck_id, 'stock_deck')
+    new_pile(deck_id, 'waste_deck')
+    new_pile(deck_id, 'foundation_1')
+    new_pile(deck_id, 'foundation_2')
+    new_pile(deck_id, 'foundation_3')
+    new_pile(deck_id, 'foundation_4')
+    new_pile(deck_id, 'tableau_1')
+    new_pile(deck_id, 'tableau_2')
+    new_pile(deck_id, 'tableau_3')
+    new_pile(deck_id, 'tableau_4')
+    new_pile(deck_id, 'tableau_5')
+    new_pile(deck_id, 'tableau_6')
+    new_pile(deck_id, 'tableau_7')
 
     #populate tableaus
 
-
-    return render_template('solitaire.html',
-        active = '',
-        s='', w='',
-        f1='', f2='', f3='', f4='',
-        t1='', t2='', t3='', t4='', t5='', t6='', t7='',
-        test_text=abc
-    )
+    return abc
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def play_solitaire():
@@ -151,22 +155,24 @@ def play_solitaire():
     )
 
 def new_deck():
-    print ("ran newdeck")
-    print (requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json())
     return requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
 
 def new_pile(deck_id, name):
-    return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards=')
+    return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards=').json()
 
 def show_pile(deck_id, name):
-    return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/list/')
+    requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/list/')
 
 def return_waste(deck_id):
-    return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
+    requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
 
 def populate_pile(deck_id, name, amount):
-    stock_top =
-    return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards=AS,2S')
+    draw_from_deck = requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/draw/?count={amount}').json()
+    card_list = ''
+    for i in draw_from_deck["cards"]:
+        card_list = cardlist + i["code"] + ","
+    card_list = card_list[:-1]
+    requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards={card_list}')
 
 ''' reminder to self about piles
 player2": {
