@@ -20,8 +20,8 @@ def startup():
         return redirect(url_for('floor'))
     else:
         text = ""
-        return redirect(url_for('login', text=text))
-        #render_template('login.html', text=text)
+        #return redirect(url_for('login', text=text))
+        render_template('login.html', text=text)
 
 @app.route("/logout")
 def logout():
