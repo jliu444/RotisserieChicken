@@ -18,6 +18,8 @@
   </head>
   <body>
 
+    <!--NAV BAR-->
+
     <div class="bg-gray-800">
       <div class="p-5 flex flex-row justify-end">
           <form action="/" method="POST" class="px-2"><input type="submit" value="GAME FLOOR"
@@ -29,31 +31,37 @@
       </div>
     </div>
 
+
+
     <h1 class="text-3xl text-center uppercase my-3 font-bold">{{ username }}'s Account</h1>
 
+
+
     <div class="p-5 flex flex-row">
-      <div class="my-5 mx-5 bg-gray-400">
+
+
+      <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
         <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Username: {{ username }}</h3>
-        <form action="/change" method="POST" class="px-2"><input 
+        <form action="/change" method="POST" class="px-2 m-5"><input 
           class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="CHANGE USERNAME"></form>
       </div>
-      <div class="my-5 mx-5 bg-gray-400">        
-        <h3 class="p-2 uppercase font-bold text-center">Current Balance: {{ balance }}</h3>
-        <form action="/charge" method="POST" class="px-2"><input 
+
+      <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
+        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Current Balance: {{ balance }}</h3>
+        <form action="/charge" method="POST" class="px-2 m-5"><input 
           class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="ADD TO BALANCE"></form>
       </div>
 
-      <div class="my-5 mx-5 bg-gray-400">
-      <h3 class="p-2 uppercase font-bold text-center">Game History:</h3>
-          {% if game_history %}
-            {% for game in game_history %}
-                <h3>{{ game['title'] }}</h3>
-                <p>{{ game['profit'] }}</p>
-            {% endfor %}
-          {% else %}
-            <p>You haven't played any games yet.</p>
-          {% endif %}
-       </div>
+              {% if game_history %}
+                {% for game in game_history %}
+                    <h3>{{ game['title'] }}</h3>
+                    <p>{{ game['profit'] }}</p>
+                {% endfor %}
+              {% else %}
+                <p>You haven't played any games yet.</p>
+              {% endif %}
+
     </div>
+
   </body>
 </html>

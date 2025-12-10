@@ -1,11 +1,53 @@
 <!DOCTYPE html>
+
+<!--
+  jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-3
+  time spent: 1.5
+ -->
+
 <html>
   <head>
-    <title>Log In</title>
+    <title>LOG IN</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
-
   <body>
-    <h3>LOG IN PAGE</h3>
+
+    <!--NAV BAR-->
+
+
+    <div class="bg-gray-800">
+      <div class="p-5 flex flex-row justify-end">
+        <!--DO IF STAT$EMENT FOR BUTTONS LOG IN /SIGN UP-->
+      </div>
+    </div>
+
+
+
+
+    <h1 class="text-3xl text-center uppercase my-3 font-bold">LOG IN HERE:</h1>
+
+    <div class="p-5 flex flex-col">
+
+
+      <div class="my-5 bg-gray-400 flex flex-col items-center">
+        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Username: {{ username }}</h3>
+        <form action="/change" method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="CHANGE USERNAME"></form>
+      </div>
+
+      <div class="my-5 bg-gray-400 flex flex-col items-center">        
+        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Current Balance: {{ balance }}</h3>
+        <form action="/charge" method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="ADD TO BALANCE"></form>
+      </div>
+    </div>
+
 
     <form action="{{ url_for('login') }}" method="POST">
       <label>Username</label>

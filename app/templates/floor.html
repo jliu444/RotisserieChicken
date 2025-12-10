@@ -8,6 +8,28 @@
   2025-12-3
   time spent: 1.5
  -->
+<<<<<<< HEAD
+
+<html>
+  <head>
+    <title>THE GAME FLOOR</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+  </head>
+  <body>
+
+    <!--NAV BAR-->
+
+    <div class="bg-gray-800">
+      <div class="p-5 flex flex-row justify-end">
+          <form action="/" method="POST" class="px-2"><input type="submit" value="GAME FLOOR"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="/profile" method="POST" class="px-2"><input type="submit" value="PROFILE"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="/logout" method="POST" class="px-2"><input type="submit" value="LOG OUT"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+=======
 <html class="dark">
   <div class="bg-white dark:bg-black">
     <head>
@@ -42,8 +64,44 @@
             <div>
               <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.yp-cbhhhbK3jwwGU3VjsYQHaFj%3Fpid%3DApi&f=1&ipt=712a855e106319a7ea1930b40db1948acf9e67992cfa6976a0d980414727744f&ipo=images" alt="Tarot" width="35%" height="35%">
               <a href="/tarot">Tarot</a>
+>>>>>>> e8fbb6b66e779fe7e8208a209da5bcfe5433038c
       </div>
+    </div>
+
+    <h1 class="text-3xl text-center uppercase my-3 font-bold">Welcome to the Game Floor</h1>
+
+    <!--GAMES: POKER-->
+    
+    <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
+        <h3 class="p-2 uppercase font-bold text-center ">Poker</h3>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.fbGTnao-if09TBIvHacqqwHaDt%3Fpid%3DApi&f=1&ipt=e8b9adf90ff256d5bc2eda3866bdfafb107f18f2a8b3c0f0263ab8e99c4b053c&ipo=images" alt="Poker" class="h-30% object-contain">
+        <form action="/poker" method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="PLAY"></form>
+    </div>
+
+    <!--GAMES: BLACKJACk-->
+
+    <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
+        <h3 class="p-2 uppercase font-bold text-center ">Blackjack</h3>
+        <img src="https://media.istockphoto.com/id/153493845/photo/blackjack.jpg?s=612x612&w=0&k=20&c=LUt6ZklfqGhYF0f3vG1dq3Xqtg2NfbnCYi-yx1CqRWc=" alt="Blackjack" class="object-contain">     
+        <form action="/blackjack" method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="PLAY"></form>
+    </div>
+
+    <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
+        <h3 class="p-2 uppercase font-bold text-center ">Solitaire</h3>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.g9-nxjAX4oDaXygL7BiDGQHaD4%3Fpid%3DApi&f=1&ipt=2f608626c5963f57557baaeec109a77a9e4d64774042dc08653d0c1be3146ca6&ipo=images"
+              alt="Solitaire" class="object-contain">
+        <form action="/solitaire" method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="PLAY"></form>
+    </div>
+
+    <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
+        <h3 class="p-2 uppercase font-bold text-center ">Tarot</h3>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.yp-cbhhhbK3jwwGU3VjsYQHaFj%3Fpid%3DApi&f=1&ipt=712a855e106319a7ea1930b40db1948acf9e67992cfa6976a0d980414727744f&ipo=images" alt="Tarot" class="object-contain">
+        <form action="/poker" method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="PLAY"></form>
+    </div>
+
     </body>
-  </div>
-  </div>
 </html>
