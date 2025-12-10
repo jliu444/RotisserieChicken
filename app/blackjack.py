@@ -15,17 +15,32 @@
 
 import requests
 
+# class house:
+#     def __init__(self):
+
+class Player:
+    def __init__(self,tcash,bcash):
+        self.tcash = tcash
+        self.bcash = bcash
+
+
 class Blackjack:
     def __init__(self):
         response = requests.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
         data = response.json()
         self.deck_id = data["deck_id"]
 
-    def deal(self):
-        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2")
 
-    def hit(self)
-        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1")
+    def deal(self):
+        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2").json()["cards"]
+
+
+    def hit(self):
+        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1").json()["cards"]
+
+    # def stand(self):
+
+
 
 if __name__ == "__main__":
     game = Blackjack()
