@@ -33,14 +33,14 @@
 
     <h1 class="text-3xl text-center uppercase my-3 font-bold">LOG IN HERE:</h1>
 
-    <div class="mx-[30%] p-5 flex flex-col">
+    <div class="mx-[30%] flex flex-col">
       <div class="my-5 bg-gray-400 flex flex-col items-center">
-        <form action="{{ url_for('login') }}" method="POST" class="px-2 m-5">
-            <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Username:</h3>
-            <input type="text" name="username" required>
+        <form action="{{ url_for('login') }}" method="POST" class="">
+            <h3 class="p-2 uppercase font-bold text-center bg-gray-500 ">Username:</h3>
+            <input class="mt-4 mb-8 rounded-base w-full border border-default-medium" type="text" name="username" required>
 
             <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Password:</h3>
-            <input type="text" name="password" required>
+            <input class="mt-4 mb-8" type="text" name="password" required>
 
             <input class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="LOG IN">          
 
