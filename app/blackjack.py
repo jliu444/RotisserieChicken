@@ -1,7 +1,7 @@
 # <!--Concept of this page:
 #   make house
-#   - if value under 17, hit
-#   - if value over 17 stand
+#   - if house value under 17, hit
+#   - if house value over 17 stand
 #   Game code
 #   - if player value over 21 and house value under 21, player loses
 #   - if card value is 2 and player value 21 then 2.5 * bet
@@ -12,3 +12,20 @@
 #   stand/hit button
 #   bet chips
 # -->
+
+import requests
+
+class Blackjack:
+    def __init__(self):
+        response = requests.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
+        data = response.json()
+        self.deck_id = data["deck_id"]
+
+    def deal(self):
+        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2")
+
+    def hit(self)
+        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1")
+
+if __name__ == "__main__":
+    game = Blackjack()
