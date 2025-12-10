@@ -48,6 +48,19 @@ bugs: deck of cards new deck function does not yet work
 robertC -- 2025-12-8 11:47
 Did floor stuff, fixed floormatting, and buttons
 
+veronikaD -- 2025-12-8 11:47
+css
+
 cindyL -- 2025-12-9 11:47
 deck of cards api used to create new deck
 more solitaire reasoning
+
+veronikaD -- 2025-12-9 11:47
+css
+
+cindyL -- 2025-12-10 11:47
+created piles
+more solitaire reasoning
+
+veronikaD -- 2025-12-10 11:47
+css
