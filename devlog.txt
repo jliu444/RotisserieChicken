@@ -67,3 +67,8 @@ css
 
 cindyL -- 2025-12-10 1:18
 tried to figure out more solitaire
+
+cindyL -- 2025-12-11 1:16
+tried to figure out more solitaire
+separated solitaire code into its own class
+bugs: solitaire class functions not defined properly?

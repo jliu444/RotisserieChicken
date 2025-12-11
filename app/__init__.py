@@ -1,5 +1,8 @@
 import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
+from solitaire import Solitaire
+from blackjack import Blackjack
+from poker import Poker
 
 app = Flask(__name__)
 
@@ -78,6 +81,8 @@ def register():
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
+    deck = Solitaire()
+    test_text = deck.show_pile()
     return render_template('solitaire.html', test_text='')
 
 @app.route('/profile', methods=["GET", "POST"])

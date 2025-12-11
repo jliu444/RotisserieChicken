@@ -22,57 +22,16 @@ Concept:
 import requests
 
 class Solitaire:
-    def __init__(self):
-        # create the deck
-        master_deck = requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
-        deck_id = ''
-        if master_deck["success"]:
-            deck_id = master_deck["deck_id"]
-            deck_size = master_deck["remaining"]
-            abc = "id: " + deck_id + "deck size: " + str(deck_size)
+    def new_pile(self, deck_id, pile_name):
+        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/add/?cards=')
 
-            # create all other piles
-            new_pile(deck_id, 'stock_deck')
-            new_pile(deck_id, 'waste_deck')
-            new_pile(deck_id, 'foundation_1')
-            new_pile(deck_id, 'foundation_2')
-            new_pile(deck_id, 'foundation_3')
-            new_pile(deck_id, 'foundation_4')
-            new_pile(deck_id, 'tableau_1')
-            new_pile(deck_id, 'tableau_2')
-            new_pile(deck_id, 'tableau_3')
-            new_pile(deck_id, 'tableau_4')
-            new_pile(deck_id, 'tableau_5')
-            new_pile(deck_id, 'tableau_6')
-            new_pile(deck_id, 'tableau_7')
+    def show_pile(self, deck_id, pile_name):
+        return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/list/')
 
-            #populate tableaus
-            populate_pile(deck_id, 'tableau_1', 1)
-            populate_pile(deck_id, 'tableau_2', 2)
-            populate_pile(deck_id, 'tableau_3', 3)
-            populate_pile(deck_id, 'tableau_4', 4)
-            populate_pile(deck_id, 'tableau_5', 5)
-            populate_pile(deck_id, 'tableau_6', 6)
-            populate_pile(deck_id, 'tableau_7', 7)
-
-            #populate stock
-            populate_pile(deck_id, 'stock_deck', 24)
-
-        else:
-            abc = 'deck creation failed'
-
-        return abc
-
-    def new_pile(deck_id, pile_name):
-        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/add/?cards=').json()
-
-    def show_pile(deck_id, pile_name):
-        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/list/')
-
-    def return_waste(deck_id):
+    def return_waste(self, deck_id):
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
 
-    def populate_pile(deck_id, pile_name, amount):
+    def populate_pile(self, deck_id, pile_name, amount):
         draw_from_deck = requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/draw/?count={amount}').json()
         card_list = ''
         for i in draw_from_deck["cards"]:
@@ -80,11 +39,13 @@ class Solitaire:
         card_list = card_list[:-1]
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards={card_list}')
 
-    def move_cards(deck_id, init_pile_name, final_pile_name, amount):
-        # discard a card from the init_pile
-        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{init_pile_name}/draw/')
-        # add all discarded cards to target pile
-
+    def move_cards(self, deck_id, init_pile_name, final_pile_name, amount):
+        # move top card from the init_pile to deck
+        for i in range(amount):
+            requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{init_pile_name}/return/')
+        # add all deck cards to final_pile
+        requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/return/')
+        populate_pile(deck_id, final_pile_name, amount)
 
     ''' reminder to self about piles
     player2": {
@@ -105,6 +66,43 @@ class Solitaire:
                 "remaining": "2"
             }
     '''
+
+    def __init__(self):
+        # create the deck
+        self.master_deck = requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
+        self.deck_id = ''
+        self.active_card = ''
+        if self.master_deck["success"]:
+            self.deck_id = self.master_deck["deck_id"]
+            self.deck_size = self.master_deck["remaining"]
+
+            # create all other piles
+            new_pile(self, deck_id, 'stock_deck')
+            new_pile(self, deck_id, 'waste_deck')
+            new_pile(self, deck_id, 'foundation_1')
+            new_pile(self, deck_id, 'foundation_2')
+            new_pile(self, deck_id, 'foundation_3')
+            new_pile(self, deck_id, 'foundation_4')
+            new_pile(self, deck_id, 'tableau_1')
+            new_pile(deck_id, 'tableau_2')
+            new_pile(deck_id, 'tableau_3')
+            new_pile(deck_id, 'tableau_4')
+            new_pile(deck_id, 'tableau_5')
+            new_pile(deck_id, 'tableau_6')
+            new_pile(deck_id, 'tableau_7')
+
+            #populate tableaus
+            populate_pile(deck_id, 'tableau_1', 1)
+            populate_pile(deck_id, 'tableau_2', 2)
+            populate_pile(deck_id, 'tableau_3', 3)
+            populate_pile(deck_id, 'tableau_4', 4)
+            populate_pile(deck_id, 'tableau_5', 5)
+            populate_pile(deck_id, 'tableau_6', 6)
+            populate_pile(deck_id, 'tableau_7', 7)
+
+            #populate stock
+            populate_pile(deck_id, 'stock_deck', 24)
+
 
 if __name__ == "__main__":
     game = Solitaire()
