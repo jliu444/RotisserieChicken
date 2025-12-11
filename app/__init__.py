@@ -20,8 +20,8 @@ def startup():
         return redirect(url_for('floor'))
     else:
         text = ""
-        return redirect(url_for('login', text=text))
-        #render_template('login.html', text=text)
+        #return redirect(url_for('login', text=text))
+        return render_template('login.html', text=text)
 
 @app.route("/logout")
 def logout():
@@ -101,48 +101,98 @@ Concept:
           -> if active card is NOT top of pile: INVALID move
           -> ELSE: move card into foundation
 '''
-foundation_1=[]
-foundation_2=[]
-foundation_3=[]
-foundation_4=[]
-tableau_1=[]
-tableau_2=[]
-tableau_3=[]
-tableau_4=[]
-tableau_5=[]
-tableau_6=[]
-tableau_7=[]
-stock_deck=[]
-waste_deck=[]
-foundation_decks=[foundation_1, foundation_2, foundation_3, foundation_4]
-tableau_decks=[tableau_1, tableau_2, tableau_3, tableau_4, tableau_5, tableau_6, tableau_7]
-game_deck=[stock_deck, waste_deck, foundation_decks, tableau_decks]
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
-    deck_json = new_deck()
-    if deck_json["success"]:
-        deck_id = deck_json["deck_id"]
-        deck_size = deck_json["remaining"]
+    abc = setup_solitaire()
+    return render_template('solitaire.html',
+        active = '',
+        s='', w='',
+        f1='', f2='', f3='', f4='',
+        t1='', t2='', t3='', t4='', t5='', t6='', t7='',
+        test_text=abc
+    )
+
+@app.route('/solitaire', methods=["GET", "POST"])
+def setup_solitaire():
+    # create the deck
+    master_deck = new_deck()
+    deck_id = ''
+    if master_deck["success"]:
+        deck_id = master_deck["deck_id"]
+        deck_size = master_deck["remaining"]
         abc = "id: " + deck_id + "deck size: " + str(deck_size)
     else:
         abc = 'deck creation failed'
+
+    # create all other piles
+    new_pile(deck_id, 'stock_deck')
+    new_pile(deck_id, 'waste_deck')
+    new_pile(deck_id, 'foundation_1')
+    new_pile(deck_id, 'foundation_2')
+    new_pile(deck_id, 'foundation_3')
+    new_pile(deck_id, 'foundation_4')
+    new_pile(deck_id, 'tableau_1')
+    new_pile(deck_id, 'tableau_2')
+    new_pile(deck_id, 'tableau_3')
+    new_pile(deck_id, 'tableau_4')
+    new_pile(deck_id, 'tableau_5')
+    new_pile(deck_id, 'tableau_6')
+    new_pile(deck_id, 'tableau_7')
+
+    #populate tableaus
+
+    return abc
+
+@app.route('/solitaire', methods=["GET", "POST"])
+def play_solitaire():
     return render_template('solitaire.html',
         active = '',
-        stock='', waste='',
+        s='', w='',
         f1='', f2='', f3='', f4='',
         t1='', t2='', t3='', t4='', t5='', t6='', t7='',
         test_text=abc
     )
 
 def new_deck():
-    print ("ran newdeck")
-    print (requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json())
     return requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
 
 def new_pile(deck_id, name):
-    return requests.get(f'https://deckofcardsapi.com/api/deck/{{deck_id}}/pile/{{name}}/add/?cards=')
+    return requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards=').json()
 
+def show_pile(deck_id, name):
+    requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/list/')
+
+def return_waste(deck_id):
+    requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
+
+def populate_pile(deck_id, name, amount):
+    draw_from_deck = requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/draw/?count={amount}').json()
+    card_list = ''
+    for i in draw_from_deck["cards"]:
+        card_list = cardlist + i["code"] + ","
+    card_list = card_list[:-1]
+    requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{name}/add/?cards={card_list}')
+
+''' reminder to self about piles
+player2": {
+            "cards": [
+                {
+                    "image": "https://deckofcardsapi.com/static/img/KH.png",
+                    "value": "KING",
+                    "suit": "HEARTS",
+                    "code": "KH"
+                },
+                {
+                    "image": "https://deckofcardsapi.com/static/img/8C.png",
+                    "value": "8",
+                    "suit": "CLUBS",
+                    "code": "8C"
+                }
+            ],
+            "remaining": "2"
+        }
+'''
 if __name__ == "__main__":
     app.debug = True
     app.run()
