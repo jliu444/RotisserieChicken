@@ -13,18 +13,26 @@
   <head>
     <title>TAROT CARDS</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
+
+
   <body>
 
-    <! TEMPORARY NAV BAR, FIX ACCORDINGLY>
-    <nav>
-      <form action="/" method="POST"><input type="submit" value="GAME FLOOR"></form>
-      <form action="/profile" method="POST"><input type="submit" value="PROFILE"></form>
-      <form action="/logout" method="POST"><input type="submit" value="LOG OUT"></form>
-    </nav>
+    <!--NAV BAR-->
+    <div class="bg-gray-800">
+      <div class="p-5 flex flex-row justify-end">
+          <form action="{{ url_for('floor') }}" method="POST" class="px-2"><input type="submit" value="GAME FLOOR"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="{{ url_for('profile') }}" method="POST" class="px-2"><input type="submit" value="PROFILE"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="{{ url_for('logout') }}" class="px-2"><input type="submit" value="LOG OUT"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+       </div>
+    </div>
 
-    <h1>Tarot Card Matching Game</h1>
+    <h1 class="text-3xl text-center uppercase my-3 font-bold">The Tarot Terrain</h1>
 
     <h3>How to Play: In this classic memory card game, also known as concentration, flip over two cards at a time.
       Try to remember the location of each card and find the matching pairs.</h3>
