@@ -67,3 +67,14 @@ css
 
 cindyL -- 2025-12-10 1:18
 tried to figure out more solitaire
+
+cindyL -- 2025-12-11 1:16
+tried to figure out more solitaire
+separated solitaire code into its own class
+bugs: solitaire class functions not defined properly?
+
+jakeL -- 2025-12-11 21:23
+jake: layout of poker class finished
+cindy: solitaire work
+veronika: css finished for floor and started on login/register
+robert: blackjack class work
