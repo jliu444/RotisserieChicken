@@ -32,6 +32,24 @@ def logout():
 def floor():
     return render_template('floor.html', username=session['username'])
 
+
+
+
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
+    return render_template('profile.html', username=session['username'])
+
+@app.route('/change', methods=["GET", "POST"])
+def change():
+    return render_template('change.html', username=session['username'])
+
+@app.route('/charge', methods=["GET", "POST"])
+def charge():
+    return render_template('charge.html', username=session['username'])
+
+
+
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
@@ -76,9 +94,15 @@ def register():
         return redirect(url_for('floor'))
     return render_template('register.html', text='')
 
-@app.route('/profile', methods=["GET", "POST"])
-def profile():
-    pass
+
+
+@app.route('/tarot', methods=["GET", "POST"])
+def tarot():
+    return render_template('tarot.html', username=session['username'])
+
+
+
+
 
 '''
 Concept:
