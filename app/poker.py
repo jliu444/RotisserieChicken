@@ -29,8 +29,27 @@ class Poker:
         board_cards.append(card_info[0]["code"])
 
     def check_or_call(self):
-        
-        pass
+        opp_bet = self.round_bets[self.next()]
+        curr_bet = self.round_bets[self.player_to_move]
+        to_bet = opp_bet - curr_bet
+
+        # check
+        if to_bet == 0:
+            self.player_to_move = self.next()
+
+        # call, within budget
+        elif self.player_stakes[self.player_to_move] + to_bet <= self.max_chips:
+            self.player_stakes[self.player_to_move] += to_bet
+            self.round_bets[self.player_to_move] += to_bet
+            self.player_to_move = self.next()
+
+        # call, not within budget
+        else:
+            to_bet = 0 # fix
+
+
+
+
 
     def make_bet_or_raise_to(self):
         pass
