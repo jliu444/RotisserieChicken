@@ -28,13 +28,13 @@
     <!--this is The Stock Pile -->
     <div id="stock" class="container">
       stock
-      <button type="submit" value="stock">card</button>
+      <form method="POST" action="{{ url_for('solitaire') }}"><button type="submit" name="pile" value="stock">card</button></a>
     </div>
 
     <!--this is The Waste Pile -->
     <div id="waste" class="container">
       waste
-      <button type="submit" value="waste">card</button>
+      <button type="submit" name="waste">card</button>
     </div>
 
     <!--this is The 4 Foundations Piles-->
@@ -42,22 +42,22 @@
 
       <div id="foundations1">
         foundations1
-        <button type="submit" value="foundations1">card</button>
+        <button type="submit" name="foundations1">card</button>
       </div>
 
       <div id="foundations2">
         foundations2
-        <button type="submit" value="foundations2">card</button>
+        <button type="submit" name="foundations2">card</button>
       </div>
 
       <div id="foundations3">
         foundations3
-        <button type="submit" value="foundations3">card</button>
+        <button type="submit" name="foundations3">card</button>
       </div>
-
+value
       <div id="foundations4">
         foundations4
-        <button type="submit" value="foundations4">card</button>
+        <button type="submit" name="foundations4">card</button>
       </div>
 
     </div>
@@ -69,37 +69,37 @@
 
     <div id="tableau1">
       tableau1
-      <button type="submit" value="tableau1">card</button>
+      <button type="submit" name="tableau1">card</button>
     </div>
 
     <div id="tableau2">
       tableau2
-      <button type="submit" value="tableau2">card</button>
+      <button type="submit" name="tableau2">card</button>
     </div>
 
     <div id="tableau3">
       tableau3
-      <button type="submit" value="tableau3">card</button>
+      <button type="submit" name="tableau3">card</button>
     </div>
 
     <div id="tableau4">
-      tableau4
-      <button type="submit" value="tableau4">card</button>
+      tableau4value
+      <button type="submit" name="tableau4">card</button>
     </div>
 
     <div id="tableau5">
       tableau5
-      <button type="submit" value="tableau5">card</button>
+      <button type="submit" name="tableau5">card</button>
     </div>
 
     <div id="tableau6">
-      tableau6
-      <button type="submit" value="tableau6">card</button>
+      tableau6value
+      <button type="submit" name="tableau6">card</button>
     </div>
 
     <div id="tableau7">
       tableau7
-      <button type="submit" value="tableau7">card</button>
+      <button type="submit" name="tableau7">card</button>
     </div>
 
   </div>

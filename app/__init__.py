@@ -1,7 +1,7 @@
 import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from solitaire import Solitaire
-from blackjack import Blackjack
+#from blackjack import Blackjack
 from poker import Poker
 
 app = Flask(__name__)
@@ -35,9 +35,6 @@ def logout():
 def floor():
     return render_template('floor.html', username=session['username'])
 
-
-
-
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
     return render_template('profile.html', username=session['username'])
@@ -49,9 +46,6 @@ def change():
 @app.route('/charge', methods=["GET", "POST"])
 def charge():
     return render_template('charge.html', username=session['username'])
-
-
-
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -101,13 +95,30 @@ def register():
 def tarot():
     return render_template('tarot.html', username=session['username'])
 
+# create solitaire game variable to prevent deck resets
+solitaire_deck = Solitaire()
+
+@app.route('/solitaire_setup', methods=["GET", "POST"])
+def solitaire_setup():
+    solitaire_deck = Solitaire()
+    test_text = solitaire_deck.card_dictbutton
+    return redirect(url_for('solitaire',
+        deck=solitaire_deck,
+        test_text=test_text,
+        active_deck=''))
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
-    deck = Solitaire()
-    test_text = deck.show_pile()
-    return render_template('solitaire.html', test_text='')
-
+    if request.method == 'POST':
+        active_deck = request.form.get('pile')
+    else:
+        active_deck = ''
+    test_text = solitaire_deck.card_dict
+    solitaire_deck.play()
+    return render_template('solitaire.html',
+        deck=solitaire_deck,
+        test_text=test_text,
+        active_deck='')
 
 if __name__ == "__main__":
     app.debug = True

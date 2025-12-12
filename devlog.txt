@@ -78,3 +78,7 @@ jake: layout of poker class finished
 cindy: solitaire work
 veronika: css finished for floor and started on login/register
 robert: blackjack class work
+
+cindyL -- 2025-12-12 1:17
+in solitaire class, created dict to track card hidden/not hidden
+tried to make solitaire.html buttons call functions as needed
