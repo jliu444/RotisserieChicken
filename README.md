@@ -26,8 +26,8 @@ Users can spend their money and compete against the House in various card games 
 
 ### Launch Codes:
 In the terminal, access the project root directory (app/) and run the following commands:
-- `~$ python build_db.py`
-- `~$ python __init__.py`
+- `$ python build_db.py`
+- `$ python __init__.py`
 
 ### Launch Website
 Using the provided, locally hosted link, access the website. To deactivate the virtual environment, type `deactivate`.
