@@ -101,7 +101,7 @@ solitaire_deck = Solitaire()
 @app.route('/solitaire_setup', methods=["GET", "POST"])
 def solitaire_setup():
     solitaire_deck = Solitaire()
-    test_text = solitaire_deck.card_dictbutton
+    test_text = solitaire_deck.card_dict
     return redirect(url_for('solitaire',
         deck=solitaire_deck,
         test_text=test_text,
