@@ -2,7 +2,7 @@ import requests
 
 class Hand:
     def __init__(self, cards):
-        self.cards = cards   
+        self.cards = cards
         self.value = self.get_value()
         self.hand = self.get_hand()
 
@@ -43,7 +43,7 @@ class Hand:
             value = max(value, hand_value)
 
         return value
-    
+
     def _get_value(self, hand: list):
         '''
         Evaluate a 5-card hand and return its value
@@ -58,7 +58,7 @@ class Hand:
         - 6: full house
         - 7: four of a kind
         - 8: straight flush
-        
+
         returns: hand_strength * 10^10 + encoding
         '''
 
@@ -67,7 +67,7 @@ class Hand:
             for value in values:
                 result = result * 15 + value # base-15 since max rank is 14
             return result
-        
+
         def get_rank(code: str):
             rank = code[0]
             if rank.isnumeric():
@@ -90,7 +90,7 @@ class Hand:
         counts = {}
         for r in ranks:
             counts[r] = counts.get(r, 0) + 1
-        
+
         # sorting by count descending, then rank descending
         counts = sorted(counts.items(), key=lambda x: (-x[1], -x[0]))
 
@@ -154,13 +154,13 @@ class Hand:
 
         # high card
         return encode(ranks)
-    
+
     # generate all unique k-card combinations from the available cards
     def generate_unique_combinations(self, cards: list, k: int, combinations: list, combination=[], start=0):
         if len(combination) == k:
             combinations.append(combination.copy())
             return
-        
+
         for i in range(start, len(cards)):
             combination.append(cards[i])
             self.generate_unique_combinations(cards, k, combinations, combination, i + 1)
@@ -183,7 +183,7 @@ class Poker:
         self.OPPONENT = 1
 
         # Game state
-        self.player_to_move = 0
+        self.player_to_move = self.PLAYER
         self.max_chips = player_chips
         self.stakes = [0, 0] # 0 <= stakes <= max_chips
         self.round_bets = [0, 0] # reset to [0, 0] every betting round
@@ -261,9 +261,9 @@ class Poker:
             self.winner = self.PLAYER
         elif opponent_value > player_value:
             self.winner = self.OPPONENT
-        
+
         self.is_game_over = True
-    
+
     def reset_round_bets(self):
         self.round_bets = [0, 0]
 
@@ -274,10 +274,10 @@ class Poker:
 
     def next_player(self):
         if self.player_to_move == self.PLAYER:
-            return self.OPPONENT 
+            return self.OPPONENT
         else:
             return self.PLAYER
-    
+
     def get_winnings(self):
         if self.winner == self.PLAYER:
             return self.stakes[self.OPPONENT]
@@ -285,16 +285,23 @@ class Poker:
             return -self.stakes[self.PLAYER]
         return 0 # tie
 
+    def reset_game(self, player_chips):
+        requests.get(
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/return/"
+        )
+
+        requests.get(
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/shuffle/""
+        )
+
+        self.board_cards = []
+        self.hole_cards = []
+        self.player_to_move = self.PLAYER
+        self.max_chips = player_chips
+        self.stakes = [0, 0]
+        self.round_bets = [0, 0]
+        self.winner = None
+        self.is_game_over = False
 
 if __name__ == "__main__":
-    game = Poker(5000)
-    game.deal_hole()
-    game.deal_board(5)
-    print([cards["code"] for cards in game.hole_cards[0]])
-    print([cards["code"] for cards in game.hole_cards[1]])
-    print([card["code"] for card in game.board_cards])
-
-    game.showdown()
-    print(game.winner)
-    print
-
+    pass
