@@ -2,7 +2,7 @@ import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from solitaire import Solitaire
 #from blackjack import Blackjack
-from poker import Poker
+#from poker import Poker
 
 app = Flask(__name__)
 
@@ -39,7 +39,7 @@ def floor():
 def profile():
     if 'username' not in session:
         return redirect(url_for('login'))
-   
+
     else:
         username=session['username']
         db = sqlite3.connect(DB_FILE)
@@ -124,10 +124,10 @@ def solitaire_setup():
 def solitaire():
     if request.method == 'POST':
         active_deck = request.form.get('pile')
+        solitaire_deck.play()
     else:
         active_deck = ''
     test_text = solitaire_deck.card_dict
-    solitaire_deck.play()
     return render_template('solitaire.html',
         deck=solitaire_deck,
         test_text=test_text,

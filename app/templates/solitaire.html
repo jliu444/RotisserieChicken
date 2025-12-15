@@ -22,6 +22,15 @@
 -->
 
 <html>
+  <p>
+    {% for key, value in my_dict.items(): %}
+      key
+      <br>
+      {% for i in value %}
+      value
+      <br>
+    {% endfor %}
+  </p>
   <p>{{test_text}}</p>
   <div id="top" class="container">
 
