@@ -55,7 +55,7 @@ class Solitaire:
 
     def check_top(self, deck_id, pile):
         card_list = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile}/list/').json()
-        return [card_list[pile]["cards"][0]["value"], card_list[pile]["cards"][0]["suit"]]card
+        return [card_list[pile]["cards"][0]["value"], card_list[pile]["cards"][0]["suit"]]
 
     def front_top(self, pile):
         self.card_dict[pile][0][3] = 'front'
