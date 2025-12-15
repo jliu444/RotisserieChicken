@@ -28,22 +28,37 @@ class Blackjack:
         self.dealer_hand = []
         self.score = 0
         self.balance = balance
-
+        self.player_turn = True
+        self.winner = False
 
     def ui(self):
+
 
     def bet(self):
 
 
     def deal(self):
-        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2").json()["cards"]
+        self.player_hand += requests.get(
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2"
+        ).json()["cards"]
+        self.dealer_hand += requests.get(
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2"
+        ).json()["cards"]
 
-    def start(self):
-        self.game_active = True
-        return self.deal
+    # def start(self):
+    #     self.game_active = True
+    #     return self.deal
 
     def hit(self):
-        return requests.get(f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1").json()["cards"]
+        if self.player_turn:
+            self.player_hand += requests.get(
+                f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1"
+            ).json()["cards"]
+        else:
+            self.dealer_hand += requests.get(
+                f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1"
+            ).json()["cards"]
+
 
     def score(self):
 
@@ -53,11 +68,14 @@ class Blackjack:
         if self.player_hand["value"][]
 
     def stand(self):
+        self.player_turn = not self.player_turn
 
 
 
     def end_game(self):
         self.game_active = False
+        if self.winner:
+            return bet * 2
 
 
 if __name__ == "__main__":
