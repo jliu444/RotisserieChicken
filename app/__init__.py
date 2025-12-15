@@ -37,7 +37,20 @@ def floor():
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
-    return render_template('profile.html', username=session['username'])
+    if 'username' not in session:
+        return redirect(url_for('login'))
+   
+    else:
+        username=session['username']
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        cmd = f"SELECT * FROM user_info WHERE user = '{username}'"
+        c.execute(cmd)
+        user_data = c.fetchone()
+        db.close()
+
+        return render_template('profile.html', username=username, balance=user_data[2], game_history=user_data[3])
+
 
 @app.route('/change', methods=["GET", "POST"])
 def change():
@@ -101,7 +114,7 @@ solitaire_deck = Solitaire()
 @app.route('/solitaire_setup', methods=["GET", "POST"])
 def solitaire_setup():
     solitaire_deck = Solitaire()
-    test_text = solitaire_deck.card_dictbutton
+    test_text = solitaire_deck.card_dict
     return redirect(url_for('solitaire',
         deck=solitaire_deck,
         test_text=test_text,
