@@ -55,91 +55,87 @@ class Solitaire:
 
     def check_top(self, deck_id, pile):
         card_list = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile}/list/').json()
-        return [card_list[pile]["cards"][0]["value"], card_list[pile]["cards"][0]["suit"]]
+        return [card_list[pile]['cards'][0]['value'], card_list[pile]['cards'][0]['suit']]
+
+    def confirm_top(self, active_card, top_card):
+        if active_card[0] == top_card[0] and active_card[1] == top_card[1]:
+            return True
+        else:
+            return False
 
     def front_top(self, pile):
         self.card_dict[pile][0][3] = 'front'
 
     def play(self):
+        top_card = self.check_top(self.deck_id, self.active_pile)
+        top = self.confirm_top(self.active_card, top_card)
+        # if active card is in a stock
+        if (self.active_pile == 'stock'):
+            if top and self.card_dict['stock_deck'][0][3] == 'back':
+                self.card_dict['stock_deck'][0][3] == 'front'
         # if active card is in a tableau
         if (self.active_pile == 'tableau1') or (self.active_pile == 'tableau2') or (self.active_pile == 'tableau3') or (self.active_pile == 'tableau4') or (self.active_pile == 'tableau5') or (self.active_pile == 'tableau6') or (self.active_pile == 'tableau7'):
-            top_card = self.check_top(self.deck_id, active_pile)
             if self.active_card[0] == top_card[0] and self.active_card[1] == top_card[1]:
                 # check if hidden, if hidden, un-hide it
-                self.active_card = []
-                self.active_pile = []
+                pass
 
-    ''' reminder to self about piles    def populate_pile(self, deck_id, pile_name, amount):
-    player2": {            self.populate_pile(self.deck_id, 'tableau_1',
-                "cards": [
-                    {
-                        "image": "https://deckofcardsapi.com/static/img/KH.png",
-                        "value": "KING",
-                        "suit": "HEARTS",
-                        "code": "KH"
-                    },
-                    {
-                        "image": "https://deckofcardsapi.com/static/img/8C.png",
-                    ￼LOG IN    "value": "8",
-                        "suit": "CLUBS",
-                        "code": "8C"
-                    }
-                ],
-                "remaining": "2"
-            }
-    '''
+
+        # update dict
+        self.card_dict[self.active_pile] = self.show_pile_cards(self.deck_id, self.active_pile)
 
     def __init__(self):
         # create the deck
         self.master_deck = requests.get('https://deckofcardsapi.com/api/deck/new/shuffle/').json()
         self.deck_id = ''
         self.active_card = []
-        self.active_pile = []
+        self.active_pile = ''
+        self.active_card2 = []
+        self.active_pile2 = ''
         self.card_dict = {}
         if self.master_deck["success"]:
             self.deck_id = self.master_deck["deck_id"]
             self.deck_size = self.master_deck["remaining"]
 
             # create all other piles
-            self.new_pile(self.deck_id, 'stock_deck')
-            self.new_pile(self.deck_id, 'waste_deck')
-            self.new_pile(self.deck_id, 'foundation_1')
-            self.new_pile(self.deck_id, 'foundation_2')
-            self.new_pile(self.deck_id, 'foundation_3')
-            self.new_pile(self.deck_id, 'foundation_4')
-            self.new_pile(self.deck_id, 'tableau_1')
-            self.new_pile(self.deck_id, 'tableau_2')
-            self.new_pile(self.deck_id, 'tableau_3')
-            self.new_pile(self.deck_id, 'tableau_4')
-            self.new_pile(self.deck_id, 'tableau_5')
-            self.new_pile(self.deck_id, 'tableau_6')
-            self.new_pile(self.deck_id, 'tableau_7')
+            self.new_pile(self.deck_id, 'stock')
+            self.new_pile(self.deck_id, 'waste')
+            self.new_pile(self.deck_id, 'foundation1')
+            self.new_pile(self.deck_id, 'foundation2')
+            self.new_pile(self.deck_id, 'foundation3')
+            self.new_pile(self.deck_id, 'foundation4')
+            self.new_pile(self.deck_id, 'tableau1')
+            self.new_pile(self.deck_id, 'tableau2')
+            self.new_pile(self.deck_id, 'tableau3')
+            self.new_pile(self.deck_id, 'tableau4')
+            self.new_pile(self.deck_id, 'tableau5')
+            self.new_pile(self.deck_id, 'tableau6')
+            self.new_pile(self.deck_id, 'tableau7')
 
             #populate tableaus
-            self.populate_pile(self.deck_id, 'tableau_1', 1)
-            self.populate_pile(self.deck_id, 'tableau_2', 2)
-            self.populate_pile(self.deck_id, 'tableau_3', 3)
-            self.populate_pile(self.deck_id, 'tableau_4', 4)
-            self.populate_pile(self.deck_id, 'tableau_5', 5)
-            self.populate_pile(self.deck_id, 'tableau_6', 6)
-            self.populate_pile(self.deck_id, 'tableau_7', 7)
+            self.populate_pile(self.deck_id, 'tableau1', 1)
+            self.populate_pile(self.deck_id, 'tableau2', 2)
+            self.populate_pile(self.deck_id, 'tableau3', 3)
+            self.populate_pile(self.deck_id, 'tableau4', 4)
+            self.populate_pile(self.deck_id, 'tableau5', 5)
+            self.populate_pile(self.deck_id, 'tableau6', 6)
+            self.populate_pile(self.deck_id, 'tableau7', 7)
 
             #populate stock
             self.populate_pile(self.deck_id, 'stock_deck', 24)
 
-        self.card_dict["stock_deck"] = self.show_pile_cards(self.deck_id, "stock_deck")
-        self.card_dict["waste_deck"] = self.show_pile_cards(self.deck_id, "waste_deck")
-        self.card_dict["foundation_1"] = self.show_pile_cards(self.deck_id, "foundation_1")
-        self.card_dict["foundation_2"] = self.show_pile_cards(self.deck_id, "foundation_2")
-        self.card_dict["foundation_3"] = self.show_pile_cards(self.deck_id, "foundation_3")
-        self.card_dict["foundation_4"] = self.show_pile_cards(self.deck_id, "foundation_4")
-        self.card_dict["tableau_1"] = self.show_pile_cards(self.deck_id, "tableau_1")
-        self.card_dict["tableau_2"] = self.show_pile_cards(self.deck_id, "tableau_2")
-        self.card_dict["tableau_3"] = self.show_pile_cards(self.deck_id, "tableau_3")
-        self.card_dict["tableau_4"] = self.show_pile_cards(self.deck_id, "tableau_4")
-        self.card_dict["tableau_5"] = self.show_pile_cards(self.deck_id, "tableau_5")
-        self.card_dict["tableau_6"] = self.show_pile_cards(self.deck_id, "tableau_6")
-        self.card_dict["tableau_7"] = self.show_pile_cards(self.deck_id, "tableau_7")
+        self.card_dict["stock"] = self.show_pile_cards(self.deck_id, "stock")
+        self.card_dict["waste"] = self.show_pile_cards(self.deck_id, "waste")
+        self.card_dict["foundation1"] = self.show_pile_cards(self.deck_id, "foundation1")
+        self.card_dict["foundation2"] = self.show_pile_cards(self.deck_id, "foundation2")
+        self.card_dict["foundation3"] = self.show_pile_cards(self.deck_id, "foundation3")
+        self.card_dict["foundation4"] = self.show_pile_cards(self.deck_id, "foundation4")
+        self.card_dict["tableau1"] = self.show_pile_cards(self.deck_id, "tableau1")
+        self.card_dict["tableau2"] = self.show_pile_cards(self.deck_id, "tableau2")
+        self.card_dict["tableau3"] = self.show_pile_cards(self.deck_id, "tableau3")
+        self.card_dict["tableau4"] = self.show_pile_cards(self.deck_id, "tableau4")
+        self.card_dict["tableau5"] = self.show_pile_cards(self.deck_id, "tableau5")
+        self.card_dict["tableau6"] = self.show_pile_cards(self.deck_id, "tableau6")
+        self.card_dict["tableau7"] = self.show_pile_cards(self.deck_id, "tableau7")
 
 
 if __name__ == "__main__":

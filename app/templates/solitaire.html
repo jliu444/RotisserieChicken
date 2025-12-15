@@ -34,30 +34,30 @@
     <!--this is The Waste Pile -->
     <div id="waste" class="container">
       waste
-      <button type="submit" name="waste">card</button>
+      <form method="POST" action="{{ url_for('solitaire') }}"><button type="submit" name="pile" value="waste">card</button></a>
     </div>
 
     <!--this is The 4 Foundations Piles-->
-    <div id="foundations" class="container flex flex-row">
+    <div id="foundation" class="container flex flex-row">
 
-      <div id="foundations1">
-        foundations1
-        <button type="submit" name="foundations1">card</button>
+      <div id="foundation1">
+        foundation1
+        <form method="POST" action="{{ url_for('solitaire') }}"><button type="submit" name="pile" value="foundation1">card</button></a>
       </div>
 
-      <div id="foundations2">
-        foundations2
-        <button type="submit" name="foundations2">card</button>
+      <div id="foundation2">
+        foundation2
+        <form method="POST" action="{{ url_for('solitaire') }}"><button type="submit" name="pile" value="foundation2">card</button></a>
       </div>
 
-      <div id="foundations3">
-        foundations3
-        <button type="submit" name="foundations3">card</button>
+      <div id="foundation3">
+        foundation3
+        <form method="POST" action="{{ url_for('solitaire') }}"><button type="submit" name="pile" value="foundation3">card</button></a>
       </div>
-value
-      <div id="foundations4">
-        foundations4
-        <button type="submit" name="foundations4">card</button>
+
+      <div id="foundation4">
+        foundation4
+        <form method="POST" action="{{ url_for('solitaire') }}"><button type="submit" name="pile" value="foundation4">card</button></a>
       </div>
 
     </div>
@@ -83,7 +83,7 @@ value
     </div>
 
     <div id="tableau4">
-      tableau4value
+      tableau4
       <button type="submit" name="tableau4">card</button>
     </div>
 
@@ -93,7 +93,7 @@ value
     </div>
 
     <div id="tableau6">
-      tableau6value
+      tableau6
       <button type="submit" name="tableau6">card</button>
     </div>
 
