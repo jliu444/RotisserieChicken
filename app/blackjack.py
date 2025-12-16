@@ -19,43 +19,32 @@ import requests
 class Blackjack:
 
 
-    def __init__(self, balance):
+    def __init__(self, bet: int):
         response = requests.get(f"https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
         data = response.json()
         self.deck_id = data["deck_id"]
+
+        self.bet = bet
+
         self.game_active = False
-        self.player_hand = []
+        self.hand = []
         self.dealer_hand = []
         self.score = 0
-        self.balance = balance
+        self.dealer_score = 0
         self.player_turn = True
         self.winner = False
 
-    def ui(self):
-
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> 55f5469feda08ac040daaa2946cb6182b398c3f4
-    def bet(self):
-
-
     def deal(self):
-        self.player_hand += requests.get(
+        self.hand += requests.get(
             f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2"
         ).json()["cards"]
         self.dealer_hand += requests.get(
             f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2"
         ).json()["cards"]
 
-    # def start(self):
-    #     self.game_active = True
-    #     return self.deal
-
     def hit(self):
         if self.player_turn:
-            self.player_hand += requests.get(
+            self.hand += requests.get(
                 f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1"
             ).json()["cards"]
         else:
@@ -63,24 +52,57 @@ class Blackjack:
                 f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1"
             ).json()["cards"]
 
+    def get_value(self, code: str):
+        '''
+        takes in card code and returns integer
+        representing value of card
+        '''
+        rank = code[0]
+        if rank.isnumeric():
+            if rank == "0":
+                return 10
+            return int(rank)
+        elif rank in ["J", "Q", "K"]:
+            return 10
+        elif rank == "A":
+            return 1
 
-    def score(self):
+    def score(self, who: str):
+        '''
+        who - a string ('Player' or 'Dealer')
+        '''
+        hand = []
+        if who == 'Player':
+            hand = [card['code'] for card in self.hand]
+        elif who == 'Dealer':
+            hand = [card['code'] for card in self.dealer_hand]
+        else:
+            raise ValueError("hand must be 'Player' or 'Dealer'")
 
+        has_ace = False
+        total_value = 0
+        for code in hand:
+            if code[0] == 'A':
+                has_ace = True
+            total_value += self.get_value(code)
 
+        if total_value <= 11 and has_ace:
+            total_value += 10
 
-    def blackjack(self):
-        if self.player_hand["value"][]
+        return total_value
 
     def stand(self):
         self.player_turn = not self.player_turn
 
-
-
     def end_game(self):
         self.game_active = False
         if self.winner:
-            return bet * 2
-
+            return self.bet * 2
 
 if __name__ == "__main__":
-    game = Blackjack()
+    game = Blackjack(500)
+    game.deal()
+    print(game.hand)
+    print(game.dealer_hand)
+    print(game.score('Player'))
+    print(game.score('Dealer'))
