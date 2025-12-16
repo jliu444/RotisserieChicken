@@ -98,7 +98,9 @@ add reset_game() method in poker.py
 tested poker hand logic (still need to test bet logic)
 
 cindyL -- 2025-12-15 22:51
-created all html jinja functions to properly display cards 
+created all html jinja functions to properly display cards
 fixed the solitaire dict printing for debugging
 bugs: not a single button works, but thats because the play functions are still fucked up
 
+cindyL -- 2025-12-16 13:17
+solitaire buttons and images all set up. starting to write and fix logic

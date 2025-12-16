@@ -34,9 +34,6 @@ class Solitaire:
                 list_of_cards.append([i["image"], i["value"], i["suit"], 'back'])
         return list_of_cards
 
-    def return_waste(self, deck_id):
-        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
-
     def populate_pile(self, deck_id, pile_name, amount):
         draw_from_deck = requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/draw/?count={amount}').json()
         card_list = ''
@@ -45,6 +42,7 @@ class Solitaire:
         card_list = card_list[:-1]
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/add/?cards={card_list}')
 
+    '''
     def move_cards(self, deck_id, init_pile_name, final_pile_name, amount):
         # move top card from the init_pile to deck
         for i in range(amount):
@@ -65,10 +63,44 @@ class Solitaire:
         else:
             return False
 
+    def return_waste(self, deck_id):
+        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
+    '''
+
     def front_top(self, pile):
         self.card_dict[pile][0][3] = 'front'
 
     def play(self):
+        # make sure cards that should be flipped are flipped
+        if self.card_dict["waste"] != []:
+            self.front_top('waste')
+        if self.card_dict["foundation1"] != []:
+            self.front_top('foundation1')
+        if self.card_dict["foundation2"] != []:
+            self.front_top('foundation2')
+        if self.card_dict["foundation3"] != []:
+            self.front_top('foundation3')
+        if self.card_dict["foundation4"] != []:
+            self.front_top('foundation4')
+        self.front_top('tableau1')
+        self.front_top('tableau2')
+        self.front_top('tableau3')
+        self.front_top('tableau4')
+        self.front_top('tableau5')
+        self.front_top('tableau6')
+        self.front_top('tableau7')
+        ac_color = ''
+        ac_number = ''
+        ac2_color = ''
+        ac2_number = ''
+        # if active card is from STOCK, move it to WASTE
+        self.card_dict = self.card_dict['waste'].insert(0, self.card_dict['stock'].pop(0))
+        self.front_top('waste')
+
+        self.active_card = []
+        self.active_pile = ''
+
+        '''
         top_card = self.check_top(self.deck_id, self.active_pile)
         top = self.confirm_top(self.active_card, top_card)
         # if active card is in a stock
@@ -80,10 +112,7 @@ class Solitaire:
             if self.active_card[0] == top_card[0] and self.active_card[1] == top_card[1]:
                 # check if hidden, if hidden, un-hide it
                 pass
-
-
-        # update dict
-        self.card_dict[self.active_pile] = self.show_pile_cards(self.deck_id, self.active_pile)
+        '''
 
     def __init__(self):
         # create the deck

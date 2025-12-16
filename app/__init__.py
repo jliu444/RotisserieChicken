@@ -156,7 +156,7 @@ def solitaire_setup():
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
     if request.method == 'POST':
-        if solitaire_deck.active_pile == '':
+        if solitaire_deck.active_pile != '':
             solitaire_deck.active_pile2 = request.form.get('pile')
             solitaire_deck.active_card2 = request.form.get('card')
         else:
@@ -166,9 +166,11 @@ def solitaire():
     else:
         solitaire_deck.active_deck = ''
     test_text = solitaire_deck.card_dict
+    test_text2 = [solitaire_deck.active_pile, solitaire_deck.active_card, solitaire_deck.active_pile2, solitaire_deck.active_card2]
     return render_template('solitaire.html',
         deck=solitaire_deck,
         test_text=test_text,
+        test_text2=test_text2,
         active_deck='')
 
 if __name__ == "__main__":
