@@ -33,7 +33,11 @@ class Blackjack:
 
     def ui(self):
 
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 55f5469feda08ac040daaa2946cb6182b398c3f4
     def bet(self):
 
 
