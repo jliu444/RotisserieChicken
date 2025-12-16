@@ -93,7 +93,12 @@ cindyL -- 2025-12-15 12:31
 tried to fix error in solitaire, did not manage to fix but skipped for now
 attempted to print solitaire dict better for debugging
 
+jakeL -- 2025-12-15 21:49
+add reset_game() method in poker.py
+tested poker hand logic (still need to test bet logic)
+
 cindyL -- 2025-12-15 22:51
 created all html jinja functions to properly display cards 
 fixed the solitaire dict printing for debugging
 bugs: not a single button works, but thats because the play functions are still fucked up
+
