@@ -31,6 +31,39 @@ def logout():
   session.pop('username', None)
   return redirect(url_for('startup'))
 
+@app.route("/change_username", methods=["GET", "POST"])
+def change_username():
+    new_username = request.form['username']
+    username=session['username']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    #no repeats
+    cmd = "SELECT * FROM user_info WHERE user =?"
+    c.execute(cmd, (new_username,))
+    db_user = c.fetchone()
+    if db_user:
+        db.close()
+        text = "duplicate username"
+        return render_template('change.html', text=text)
+    #proceed
+    else:
+        cmd = "UPDATE user_info SET user=? WHERE user =?"
+        c.execute(cmd, (new_username, username))
+        db.commit()
+        session['username'] = new_username
+    db.close()
+    return redirect(url_for('profile'))
+
+@app.route("/clear_history", methods=["GET", "POST"])
+def clear_history():
+    username=session['username']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    cmd = "UPDATE user_info SET game_history='' WHERE user =?"
+    c.execute(cmd, (username))
+    db.close()
+    return redirect(url_for('profile'))
+
 @app.route('/floor', methods=["GET", "POST"])
 def floor():
     return render_template('floor.html', username=session['username'])
@@ -44,8 +77,8 @@ def profile():
         username=session['username']
         db = sqlite3.connect(DB_FILE)
         c = db.cursor()
-        cmd = f"SELECT * FROM user_info WHERE user = '{username}'"
-        c.execute(cmd)
+        cmd = "SELECT * FROM user_info WHERE user =?"
+        c.execute(cmd, (username,))
         user_data = c.fetchone()
         db.close()
 
@@ -67,8 +100,8 @@ def login():
         password = request.form['password']
         db = sqlite3.connect(DB_FILE)
         c = db.cursor()
-        cmd = f"SELECT * FROM user_info WHERE user = '{username}'"
-        c.execute(cmd)
+        cmd = "SELECT * FROM user_info WHERE user =?"
+        c.execute(cmd, (username,))
         user_data = c.fetchone()
         db.close()
         if user_data == None or user_data[1] != password:
@@ -87,8 +120,8 @@ def register():
         db = sqlite3.connect(DB_FILE)
         c = db.cursor()
         #no repeats
-        cmd = f"SELECT * FROM user_info WHERE user = '{username}'"
-        c.execute(cmd)
+        cmd = "SELECT * FROM user_info WHERE user =?"
+        c.execute(cmd, (username,))
         db_user = c.fetchone()
         if db_user:
             db.close()
@@ -96,8 +129,8 @@ def register():
             return render_template('register.html', text=text)
         #proceed
         else:
-            cmd = f"INSERT into user_info VALUES ('{username}', '{password}', '0', '', '')"
-            c.execute(cmd)
+            cmd = f"INSERT into user_info VALUES (?, ?, ?, ?, ?)"
+            c.execute(cmd, (username, password, '0', '', ''))
             db.commit()
         db.close()
         session['username'] = username
