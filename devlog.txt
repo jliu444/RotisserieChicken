@@ -79,7 +79,7 @@ cindy: solitaire work
 veronika: css finished for floor and started on login/register
 robert: blackjack class work
 
-cindyL -- 2025-12-12 1:17
+cindyL -- 2025-12-12 13:17
 in solitaire class, created dict to track card hidden/not hidden
 tried to make solitaire.html buttons call functions as needed
 
@@ -92,3 +92,8 @@ poker class
 cindyL -- 2025-12-15 12:31
 tried to fix error in solitaire, did not manage to fix but skipped for now
 attempted to print solitaire dict better for debugging
+
+cindyL -- 2025-12-15 22:51
+created all html jinja functions to properly display cards 
+fixed the solitaire dict printing for debugging
+bugs: not a single button works, but thats because the play functions are still fucked up

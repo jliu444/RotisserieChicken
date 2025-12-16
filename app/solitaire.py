@@ -54,9 +54,10 @@ class Solitaire:
         populate_pile(deck_id, final_pile_name, amount)
 
     def check_top(self, deck_id, pile):
+        # figure out why pile is not updating asap. then remove the hard code
+        pile = 'stock'
         card_list = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile}/list/').json()
-        print (pile)
-        return [card_list[pile]['cards'][0]['value'], card_list[pile]['cards'][0]['suit']]
+        return [card_list['piles'][pile]['cards'][0]['value'], card_list['piles'][pile]['cards'][0]['suit']]
 
     def confirm_top(self, active_card, top_card):
         if active_card[0] == top_card[0] and active_card[1] == top_card[1]:

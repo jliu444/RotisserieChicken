@@ -123,10 +123,15 @@ def solitaire_setup():
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
     if request.method == 'POST':
-        active_deck = request.form.get('pile')
+        if solitaire_deck.active_pile == '':
+            solitaire_deck.active_pile2 = request.form.get('pile')
+            solitaire_deck.active_card2 = request.form.get('card')
+        else:
+            solitaire_deck.active_pile = request.form.get('pile')
+            solitaire_deck.active_card = request.form.get('card')
         solitaire_deck.play()
     else:
-        active_deck = ''
+        solitaire_deck.active_deck = ''
     test_text = solitaire_deck.card_dict
     return render_template('solitaire.html',
         deck=solitaire_deck,
