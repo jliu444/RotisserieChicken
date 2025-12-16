@@ -33,9 +33,27 @@
 
     <h1 class="text-3xl text-center uppercase my-3 font-bold">{{ username }}'s Balance Information</h1>
 
+    <div class="p-5 flex flex-row">
 
-<p> add? withdraw? save? etc </p>
+      <div class="flex flex-col">
+          <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
+            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500">Credit Card Number</h3>
+            <form action=" # " method="POST" class="px-2 m-5"><input 
+              class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" maxlength="12" type="text" value=""></form>
+          </div>
+          <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
+            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500">Amount to Withdraw</h3>
+            <form action=" # " method="POST" class="px-2 m-5"><input 
+              class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" maxlength="12" type="text" value=""></form>
+          </div>
+      </div>
 
+      <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
+        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Redeem All Balance</h3>
+        <form action=" # " method="POST" class="px-2 m-5"><input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="REDEEM"></form>
+      </div>
+    </div>
 
   </body>
 </html>

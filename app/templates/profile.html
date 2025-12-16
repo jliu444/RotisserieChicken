@@ -38,22 +38,24 @@
     <div class="p-5 flex flex-row">
 
 
+    <div class="flex flex-col">
       <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
-        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Username: {{ username }}</h3>
+        <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500">Username: {{ username }}</h3>
         <form action="{{ url_for('change') }}" method="POST" class="px-2 m-5"><input 
-          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="CHANGE USERNAME"></form>
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="EDIT PROFILE"></form>
       </div>
 
       <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
-        <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Current Balance: {{ balance }}</h3>
+        <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500">Current Balance: {{ balance }}</h3>
         <form action="{{ url_for('charge') }}" method="POST" class="px-2 m-5"><input 
           class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="ADD TO BALANCE"></form>
       </div>
+    </div>
 
               {% if game_history %}
                 {% for game in game_history %}
                     <h3>{{ game['title'] }}</h3>
-                    <p>{{ game['profit'] }}</p>
+                    <p>{{ game['win_rate'] }}</p>
                 {% endfor %}
               {% else %}
                 <p>You haven't played any games yet.</p>
