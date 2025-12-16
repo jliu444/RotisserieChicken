@@ -92,3 +92,7 @@ poker class
 cindyL -- 2025-12-15 12:31
 tried to fix error in solitaire, did not manage to fix but skipped for now
 attempted to print solitaire dict better for debugging
+
+jakeL -- 2025-12-15 21:49
+add reset_game() method in poker.py
+tested poker hand logic (still need to test bet logic)
