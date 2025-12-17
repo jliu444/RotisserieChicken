@@ -10,15 +10,13 @@
 
 <html>
   <head>
-    <title>TAROT CARDS</title>
+    <title>Heads-up Poker</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
 
-
   <body>
-
     <!--NAV BAR-->
     <div class="bg-gray-800">
       <div class="p-5 flex flex-row justify-end">
@@ -29,6 +27,16 @@
           <form action="{{ url_for('logout') }}" class="px-2"><input type="submit" value="LOG OUT"
             class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
        </div>
+    </div>
+
+    <div id="opponent-hand" class="container">
+      <img src={{ opponent_card_1 }}>
+      <img src={{ opponent_card_2 }}>
+    </div>
+
+    <div id="player-hand" class="container">
+      <img src={{ player_card_1 }}>
+      <img src={{ player_card_2 }}>
     </div>
 
   </body>
