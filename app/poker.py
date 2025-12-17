@@ -168,7 +168,7 @@ class Hand:
 
 
 class Poker:
-    def __init__(self, player_chips):
+    def __init__(self, player_chips: int):
         # Initialize deck
         response = requests.get(
             "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
@@ -189,6 +189,9 @@ class Poker:
         self.round_bets = [0, 0] # reset to [0, 0] every betting round
         self.winner = None
         self.is_game_over = False
+    
+    def set_chips(self, num_chips: int):
+        self.max_chips = num_chips
 
     def deal_hole(self):
         card_info = self.draw(4)["cards"]
