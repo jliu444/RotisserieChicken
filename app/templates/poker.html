@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!--
+  jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-3
+  time spent: 1.5
+ -->
+
+<html>
+  <head>
+    <title>TAROT CARDS</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+  </head>
+
+
+  <body>
+
+    <!--NAV BAR-->
+    <div class="bg-gray-800">
+      <div class="p-5 flex flex-row justify-end">
+          <form action="{{ url_for('floor') }}" method="POST" class="px-2"><input type="submit" value="GAME FLOOR"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="{{ url_for('profile') }}" method="POST" class="px-2"><input type="submit" value="PROFILE"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+          <form action="{{ url_for('logout') }}" class="px-2"><input type="submit" value="LOG OUT"
+            class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
+       </div>
+    </div>
+
+  </body>
+</html>
