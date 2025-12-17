@@ -75,26 +75,61 @@ class Solitaire:
                 self.card_dict[pile][0][3] = 'front'
 
     def isEmpty(self,pile):
-        if self.card_dict[pile]:
+        if self.card_dict[pile] == []:
             return True
         else:
             return False
 
-    def play(self):
-        ac_color = ''
-        ac_number = ''
-        ac2_color = ''
-        ac2_number = ''
-        # if active card is from STOCK, move it to WASTE
-        if
-        self.flip_top('waste')
-        self.card_dict['waste'].insert(0, self.card_dict['stock'].pop(0))
-        self.flip_top('waste')
+    def getNumber(card):
+        ac_number = 0
+        if card[1] == 'JACK': ac_number = 11
+        elif card[1] == 'QUEEN': ac_number = 12
+        elif card[1] == 'KING': ac_number = 13
+        elif card[1] == 'ACE': ac_number = 0
+        else ac_number = int(self.active_card[1])
+        return ac_number
 
-        self.active_card = []
-        self.active_pile = ''
-        print("deck id:")
-        print(self.deck_id)
+    def getColor(card):
+        ac_color = ''
+        if card[2] == 'DIAMONDS' or card[2] == 'HEARTS': ac_color = 'red'
+        else: ac_color= 'black'
+        return ac_color
+
+    def play(self):
+        # there will always be an active pile, but not always an active card
+
+            ac_color = getColor(self.active_card)
+            ac_number = getNumber(self.active_card)
+
+        # check if there is a second active pile
+        ac2 = True
+        if self.active_pile2 == '':
+            ac2 = False
+
+        # repeat process for second decision
+        ac2_color = ''
+        ac2_number = 0
+        
+
+        # if active card is from STOCK, move it to WASTE
+        if self.active_pile == 'stock':
+            # restock stock pile if empty
+            if self.isEmpty('stock'):
+                self.flip_top('waste')
+                while self.isEmpty('waste') == False:
+                    self.card_dict['stock'].insert(0, self.card_dict['waste'].pop(0))
+            # move next card to waste
+            self.flip_top('waste')
+            self.card_dict['waste'].insert(0, self.card_dict['stock'].pop(0))
+            self.flip_top('waste')
+            # no need for second decision
+            self.active_card = []
+            self.active_pile = ''
+
+        # if active card is from WASTE, allow second decision
+        if self.active_pile == 'waste':
+            if self.active_pile2 != '':
+
 
         '''
         top_card = self.check_top(self.deck_id, self.active_pile)

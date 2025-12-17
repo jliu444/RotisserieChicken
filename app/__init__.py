@@ -154,7 +154,7 @@ def poker():
 
     poker_game.set_chips(user_data[2])
 
-    
+
     return render_template('poker.html')
 
 @app.route('/tarot', methods=["GET", "POST"])
@@ -176,14 +176,18 @@ def solitaire_setup():
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
     if request.method == 'POST':
+        print("place 1 ")
         if solitaire_deck.active_pile != '':
+            print("place 2 ")
             solitaire_deck.active_pile2 = request.form.get('pile')
             solitaire_deck.active_card2 = request.form.get('card')
         else:
+            print("place 3 ")
             solitaire_deck.active_pile = request.form.get('pile')
             solitaire_deck.active_card = request.form.get('card')
         solitaire_deck.play()
     else:
+        print("place 4 ")
         solitaire_deck.active_deck = ''
     test_text = solitaire_deck.card_dict
     test_text2 = [solitaire_deck.active_pile, solitaire_deck.active_card, solitaire_deck.active_pile2, solitaire_deck.active_card2]
