@@ -2,12 +2,14 @@ import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from solitaire import Solitaire
 #from blackjack import Blackjack
-#from poker import Poker
+import poker
 
 app = Flask(__name__)
 
 app.secret_key = "testing"
 DB_FILE = "data.db"
+
+poker_game = poker.Poker(0)
 
 db = sqlite3.connect(DB_FILE)
 c = db.cursor()
@@ -136,6 +138,24 @@ def register():
         session['username'] = username
         return redirect(url_for('floor'))
     return render_template('register.html', text='')
+
+@app.route('/poker', methods=["GET", "POST"])
+def poker():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username=session['username']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    cmd = "SELECT * FROM user_info WHERE user =?"
+    c.execute(cmd, (username,))
+    user_data = c.fetchone()
+    db.close()
+
+    poker_game.set_chips(user_data[2])
+
+    
+    return render_template('poker.html')
 
 @app.route('/tarot', methods=["GET", "POST"])
 def tarot():
