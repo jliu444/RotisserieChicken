@@ -67,38 +67,34 @@ class Solitaire:
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
     '''
 
-    def front_top(self, pile):
-        self.card_dict[pile][0][3] = 'front'
+    def flip_top(self, pile):
+        if self.card_dict[pile]:
+            if self.card_dict[pile][0][3] == 'front':
+                self.card_dict[pile][0][3] = 'back'
+            else:
+                self.card_dict[pile][0][3] = 'front'
+
+    def isEmpty(self,pile):
+        if self.card_dict[pile]:
+            return True
+        else:
+            return False
 
     def play(self):
-        # make sure cards that should be flipped are flipped
-        if self.card_dict["waste"] != []:
-            self.front_top('waste')
-        if self.card_dict["foundation1"] != []:
-            self.front_top('foundation1')
-        if self.card_dict["foundation2"] != []:
-            self.front_top('foundation2')
-        if self.card_dict["foundation3"] != []:
-            self.front_top('foundation3')
-        if self.card_dict["foundation4"] != []:
-            self.front_top('foundation4')
-        self.front_top('tableau1')
-        self.front_top('tableau2')
-        self.front_top('tableau3')
-        self.front_top('tableau4')
-        self.front_top('tableau5')
-        self.front_top('tableau6')
-        self.front_top('tableau7')
         ac_color = ''
         ac_number = ''
         ac2_color = ''
         ac2_number = ''
         # if active card is from STOCK, move it to WASTE
-        self.card_dict = self.card_dict['waste'].insert(0, self.card_dict['stock'].pop(0))
-        self.front_top('waste')
+        if
+        self.flip_top('waste')
+        self.card_dict['waste'].insert(0, self.card_dict['stock'].pop(0))
+        self.flip_top('waste')
 
         self.active_card = []
         self.active_pile = ''
+        print("deck id:")
+        print(self.deck_id)
 
         '''
         top_card = self.check_top(self.deck_id, self.active_pile)
@@ -168,6 +164,14 @@ class Solitaire:
             self.card_dict["tableau5"] = self.show_pile_cards(self.deck_id, "tableau5")
             self.card_dict["tableau6"] = self.show_pile_cards(self.deck_id, "tableau6")
             self.card_dict["tableau7"] = self.show_pile_cards(self.deck_id, "tableau7")
+
+            self.flip_top('tableau1')
+            self.flip_top('tableau2')
+            self.flip_top('tableau3')
+            self.flip_top('tableau4')
+            self.flip_top('tableau5')
+            self.flip_top('tableau6')
+            self.flip_top('tableau7')
 
         else:
             print ("deck creation failed")

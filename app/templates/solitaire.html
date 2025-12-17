@@ -62,7 +62,7 @@
       <form method="POST" action="{{ url_for('solitaire') }}">
         {% if test_text['waste'] %}
           <input type="hidden" name="card" value="{{ test_text['waste'][0] }}">
-          <button type="submit" name="pile" value="waste"><img src="{{ test_text['stock'][0][0] }}" alt="waste"></img></button>
+          <button type="submit" name="pile" value="waste"><img src="{{ test_text['stock'][0][0] }}" alt="waste" class="border border-solid rounded-md" style="height:157px; width:113px;"></img></button>
         {% else %}
           <input type="hidden" name="card" value="">
           <button type="submit" name="pile" value="waste" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
