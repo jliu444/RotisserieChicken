@@ -17,8 +17,6 @@ import requests
 
 
 class Blackjack:
-
-
     def __init__(self, bet: int):
         response = requests.get(f"https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
         data = response.json()
@@ -29,8 +27,6 @@ class Blackjack:
         self.game_active = False
         self.hand = []
         self.dealer_hand = []
-        self.score = 0
-        self.dealer_score = 0
         self.player_turn = True
         self.winner = False
 
@@ -100,9 +96,4 @@ class Blackjack:
             return self.bet * 2
 
 if __name__ == "__main__":
-    game = Blackjack(500)
-    game.deal()
-    print(game.hand)
-    print(game.dealer_hand)
-    print(game.score('Player'))
-    print(game.score('Dealer'))
+    pass
