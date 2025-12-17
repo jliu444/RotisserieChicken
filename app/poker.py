@@ -291,7 +291,7 @@ class Poker:
         )
 
         requests.get(
-            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/shuffle/""
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/shuffle/"
         )
 
         self.board_cards = []
