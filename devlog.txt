@@ -107,3 +107,10 @@ solitaire buttons and images all set up. starting to write and fix logic
 
 robertc -- 2025-12-17 11:20
 Blackjack.py finished, starting on blackjack.html
+
+cindyL -- 2025-12-17 12:41
+more solitaire logic. stock pile functionality completed
+
+cindyL -- 2025-12-17 22:46
+added way more solitaire logic for recognizing cases, not yet finished 
+added restart function for solitaire 

@@ -152,10 +152,19 @@ def poker():
     user_data = c.fetchone()
     db.close()
 
+    if request.method == 'POST':
+        if 'start_game' in request.form and request.form['start_game'] == 'deal':
+            poker_game.is_game_active = True
+            poker_game.deal_hole()
+
     poker_game.set_chips(user_data[2])
 
-    
-    return render_template('poker.html')
+    return render_template(
+        'poker.html',
+        is_game_active=poker_game.is_game_active,
+        opponent_hand=poker_game.hole_cards[1],
+        player_hand=poker_game.hole_cards[0]
+    )
 
 @app.route('/tarot', methods=["GET", "POST"])
 def tarot():
@@ -166,22 +175,29 @@ solitaire_deck = Solitaire()
 
 @app.route('/solitaire_setup', methods=["GET", "POST"])
 def solitaire_setup():
+    # replace the deck used for solitaire with a new one
+    global solitaire_deck
     solitaire_deck = Solitaire()
     test_text = solitaire_deck.card_dict
+    print('re-setup')
     return redirect(url_for('solitaire',
         deck=solitaire_deck,
         test_text=test_text,
         active_deck=''))
+
+def string_to_list(string):
+    parts = string.strip("[]").split(", ")
+    return [p.strip("'") for p in parts]
 
 @app.route('/solitaire', methods=["GET", "POST"])
 def solitaire():
     if request.method == 'POST':
         if solitaire_deck.active_pile != '':
             solitaire_deck.active_pile2 = request.form.get('pile')
-            solitaire_deck.active_card2 = request.form.get('card')
+            solitaire_deck.active_card2 = string_to_list(request.form.get('card'))
         else:
             solitaire_deck.active_pile = request.form.get('pile')
-            solitaire_deck.active_card = request.form.get('card')
+            solitaire_deck.active_card = string_to_list(request.form.get('card'))
         solitaire_deck.play()
     else:
         solitaire_deck.active_deck = ''
@@ -192,7 +208,6 @@ def solitaire():
         test_text=test_text,
         test_text2=test_text2,
         active_deck='')
-
 if __name__ == "__main__":
     app.debug = True
     app.run()

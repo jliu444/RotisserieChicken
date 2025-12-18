@@ -28,6 +28,8 @@
     <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
 
+  <form action="{{ url_for('solitaire_setup') }}"><input type="submit" value="restart"></form>
+
   <p>{{ test_text2 }}</p>
   <p>
     {% for key, value in test_text.items() %}
@@ -45,12 +47,13 @@
     <div id="stock" class="container">
       stock
       <form method="POST" action="{{ url_for('solitaire') }}">
-        <input type="hidden" name="card" value="{{ test_text['stock'][0] }}">
-        <button type="submit" name="pile" value="stock">
-        {% if test_text['stock'][0][3] == 'back' %}
+        {% if test_text['stock'] %}
+          <input type="hidden" name="card" value="{{ test_text['stock'][0] }}">
+          <button type="submit" name="pile" value="stock">
           <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau1 card" style="height:157px; width:113px;">
         {% else %}
-          <img src="{{ test_text['stock'][0][0] }}" alt="{{ test_text['stock'][0][1] }} {{ test_text['stock'][0][2] }}"></img>
+          <input type="hidden" name="card" value="">
+          <button type="submit" name="pile" value="stock" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
         {% endif %}
         </button>
       </form>
@@ -62,7 +65,7 @@
       <form method="POST" action="{{ url_for('solitaire') }}">
         {% if test_text['waste'] %}
           <input type="hidden" name="card" value="{{ test_text['waste'][0] }}">
-          <button type="submit" name="pile" value="waste"><img src="{{ test_text['stock'][0][0] }}" alt="waste"></img></button>
+          <button type="submit" name="pile" value="waste"><img src="{{ test_text['waste'][0][0] }}" alt="waste" class="border border-solid rounded-md" style="height:157px; width:113px;"></img></button>
         {% else %}
           <input type="hidden" name="card" value="">
           <button type="submit" name="pile" value="waste" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>

@@ -10,15 +10,13 @@
 
 <html>
   <head>
-    <title>TAROT CARDS</title>
+    <title>Heads-up Poker</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
 
-
   <body>
-
     <!--NAV BAR-->
     <div class="bg-gray-800">
       <div class="p-5 flex flex-row justify-end">
@@ -30,6 +28,24 @@
             class="font-semibold bg-transparent rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5 shadow-md shadow-white"></form>
        </div>
     </div>
+
+    {% if not is_game_active %}
+      <form action="" method="POST">
+          <button name="start_game" value="deal">Deal</button>
+      </form>
+    {% endif %}
+
+    {% if is_game_active %}
+    <div id="opponent-hand" class="container flex flex-row">
+      <img src={{ opponent_hand[0]["image"] }} width=8% height=8%>
+      <img src={{ opponent_hand[1]["image"] }} width=8% height=8%>
+    </div>
+
+    <div id="player-hand" class="container flex flex-row">
+      <img src={{ player_hand[0]["image"] }} width=8% height=8%>
+      <img src={{ player_hand[1]["image"] }} width=8% height=8%>
+    </div>
+    {% endif %}
 
   </body>
 </html>
