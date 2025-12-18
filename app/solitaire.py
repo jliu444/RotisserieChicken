@@ -66,27 +66,31 @@ class Solitaire:
         ac_number = self.getNumber(self.active_card)
         if self.card_dict[self.active_pile2] == []:
             if ac_number == 13:
-                return True 
+                return True
         else:
             ac_color2 = self.getColor(self.active_card2)
             ac_number2 = self.getNumber(self.active_card2)
             if ac_color != ac_color2 and ac_number == (ac_number2-1):
-                return True 
-        return False 
+                return True
+        return False
 
     def f_valid(self):
         ac_number = self.getNumber(self.active_card)
-        ac_number2 = self.getNumber(self.active_card2) 
-        if (self.active_card[2] == self.active_card2[2]) and ac_number == (ac_number2+1):
-            return True 
-        return False 
+        if self.card_dict[self.active_pile2] == []:
+            if ac_number == 1:
+                return True
+        else:
+            ac_number2 = self.getNumber(self.active_card2)
+            if (self.active_card[2] == self.active_card2[2]) and ac_number == (ac_number2+1):
+                return True
+        return False
 
     def getNumber(self, card):
         ac_number = 0
         if card[1] == 'JACK': ac_number = 11
         elif card[1] == 'QUEEN': ac_number = 12
         elif card[1] == 'KING': ac_number = 13
-        elif card[1] == 'ACE': ac_number = 0
+        elif card[1] == 'ACE': ac_number = 1
         else: ac_number = int(card[1])
         return ac_number
 
@@ -111,10 +115,15 @@ class Solitaire:
             # no need for second decision
             self.endMove()
 
+        # if active card is from TABLEAU and is hidden, flip it
+        elif 'tableau' in self.active_pile and self.active_card[3] == 'back':
+            self.flip_top(self.active_pile)
+            self.endMove()
+
         # in all other cases, if card is still hidden, move cannot be made
         elif self.active_card[3] == 'back':
             self.endMove()
-        
+
         else:
             # if target location is TABLEAU
             if 'tableau' in self.active_pile2:
@@ -122,10 +131,19 @@ class Solitaire:
                 if self.t_valid():
                     print('tableau validated')
                     # need to add case for trying to move multiple cards from one tableau to another
-                    self.flip_top(self.active_pile2)
                     self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
                 self.endMove()
-            #if 'foundation' in self.active_pile2:
+            if 'foundation' in self.active_pile2:
+                print('foundation seen')
+                if self.f_valid():
+                    print('foundation validated')
+                    self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
+                self.endMove()
+
+            # always make sure that even if active_card is taken from waste, next card is available for use
+            if self.isEmpty('waste') == False:
+                if self.card_dict['waste'][0][3] == 'back':
+                    self.flip_top('waste')
 
     def __init__(self):
         # create the deck
@@ -222,7 +240,7 @@ if __name__ == "__main__":
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
     '''
 
-    
+
     '''
     top_card = self.check_top(self.deck_id, self.active_pile)
     top = self.confirm_top(self.active_card, top_card)
