@@ -29,15 +29,23 @@
        </div>
     </div>
 
-    <div id="opponent-hand" class="container">
-      <img src={{ opponent_card_1 }}>
-      <img src={{ opponent_card_2 }}>
+    {% if not is_game_active %}
+      <form action="" method="POST">
+          <button name="start_game" value="deal">Deal</button>
+      </form>
+    {% endif %}
+
+    {% if is_game_active %}
+    <div id="opponent-hand" class="container flex flex-row">
+      <img src={{ opponent_hand[0]["image"] }} width=8% height=8%>
+      <img src={{ opponent_hand[1]["image"] }} width=8% height=8%>
     </div>
 
-    <div id="player-hand" class="container">
-      <img src={{ player_card_1 }}>
-      <img src={{ player_card_2 }}>
+    <div id="player-hand" class="container flex flex-row">
+      <img src={{ player_hand[0]["image"] }} width=8% height=8%>
+      <img src={{ player_hand[1]["image"] }} width=8% height=8%>
     </div>
+    {% endif %}
 
   </body>
 </html>
