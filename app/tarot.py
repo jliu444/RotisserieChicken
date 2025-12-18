@@ -13,21 +13,23 @@ import requests
 
 class Tarot:
 
+    def __init__(self):
+        self.deck = self.generate_deck(20)  
+
+
+
     def request_cards(self):
         return requests.get("https://tarotapi.dev/api/v1/cards/random").json() 
-
+        
     def generate_deck(self, num_cards):
-        allcards = request_cards()
+        allcards = self.request_cards()
         return allcards[0, num_cards]
         
     def display_info(self, card):
-        card_content = self.deck    
-    
-
-    def __init__(self):
-        self.deck = self.generate_deck()        
+        card_content = self.deck
+              
 
         
 
 if __name__ == "__main__":
-    game = Solitaire()        
+    game = Tarot()        
