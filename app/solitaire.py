@@ -42,75 +42,61 @@ class Solitaire:
         card_list = card_list[:-1]
         requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile_name}/add/?cards={card_list}')
 
-    '''
-    def move_cards(self, deck_id, init_pile_name, final_pile_name, amount):
-        # move top card from the init_pile to deck
-        for i in range(amount):
-            requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{init_pile_name}/return/')
-        # add all deck cards to final_pile
-        requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/return/')
-        populate_pile(deck_id, final_pile_name, amount)
-
-    def check_top(self, deck_id, pile):
-        # figure out why pile is not updating asap. then remove the hard code
-        pile = 'stock'
-        card_list = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile}/list/').json()
-        return [card_list['piles'][pile]['cards'][0]['value'], card_list['piles'][pile]['cards'][0]['suit']]
-
-    def confirm_top(self, active_card, top_card):
-        if active_card[0] == top_card[0] and active_card[1] == top_card[1]:
-            return True
-        else:
-            return False
-
-    def return_waste(self, deck_id):
-        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
-    '''
-
     def flip_top(self, pile):
-        if self.card_dict[pile]:
+        # only run if pile is not empty
+        if self.card_dict[pile] != []:
             if self.card_dict[pile][0][3] == 'front':
                 self.card_dict[pile][0][3] = 'back'
             else:
                 self.card_dict[pile][0][3] = 'front'
 
-    def isEmpty(self,pile):
+    def isEmpty(self, pile):
         if self.card_dict[pile] == []:
             return True
-        else:
-            return False
+        return False
 
-    def getNumber(card):
+    def endMove(self):
+        self.active_card = []
+        self.active_pile = ''
+        self.active_card2 = []
+        self.active_pile2 = ''
+
+    def t_valid(self):
+        ac_color = self.getColor(self.active_card)
+        ac_number = self.getNumber(self.active_card)
+        if self.card_dict[self.active_pile2] == []:
+            if ac_number == 13:
+                return True 
+        else:
+            ac_color2 = self.getColor(self.active_card2)
+            ac_number2 = self.getNumber(self.active_card2)
+            if ac_color != ac_color2 and ac_number == (ac_number2-1):
+                return True 
+        return False 
+
+    def f_valid(self):
+        ac_number = self.getNumber(self.active_card)
+        ac_number2 = self.getNumber(self.active_card2) 
+        if (self.active_card[2] == self.active_card2[2]) and ac_number == (ac_number2+1):
+            return True 
+        return False 
+
+    def getNumber(self, card):
         ac_number = 0
         if card[1] == 'JACK': ac_number = 11
         elif card[1] == 'QUEEN': ac_number = 12
         elif card[1] == 'KING': ac_number = 13
         elif card[1] == 'ACE': ac_number = 0
-        else ac_number = int(self.active_card[1])
+        else: ac_number = int(card[1])
         return ac_number
 
-    def getColor(card):
+    def getColor(self, card):
         ac_color = ''
         if card[2] == 'DIAMONDS' or card[2] == 'HEARTS': ac_color = 'red'
         else: ac_color= 'black'
         return ac_color
 
     def play(self):
-        # there will always be an active pile, but not always an active card
-
-            ac_color = getColor(self.active_card)
-            ac_number = getNumber(self.active_card)
-
-        # check if there is a second active pile
-        ac2 = True
-        if self.active_pile2 == '':
-            ac2 = False
-
-        # repeat process for second decision
-        ac2_color = ''
-        ac2_number = 0
-        
-
         # if active card is from STOCK, move it to WASTE
         if self.active_pile == 'stock':
             # restock stock pile if empty
@@ -123,27 +109,23 @@ class Solitaire:
             self.card_dict['waste'].insert(0, self.card_dict['stock'].pop(0))
             self.flip_top('waste')
             # no need for second decision
-            self.active_card = []
-            self.active_pile = ''
+            self.endMove()
 
-        # if active card is from WASTE, allow second decision
-        if self.active_pile == 'waste':
-            if self.active_pile2 != '':
-
-
-        '''
-        top_card = self.check_top(self.deck_id, self.active_pile)
-        top = self.confirm_top(self.active_card, top_card)
-        # if active card is in a stock
-        if (self.active_pile == 'stock'):
-            if top and self.card_dict['stock'][0][3] == 'back':
-                self.card_dict['stock'][0][3] == 'front'
-        # if active card is in a tableau
-        if (self.active_pile == 'tableau1') or (self.active_pile == 'tableau2') or (self.active_pile == 'tableau3') or (self.active_pile == 'tableau4') or (self.active_pile == 'tableau5') or (self.active_pile == 'tableau6') or (self.active_pile == 'tableau7'):
-            if self.active_card[0] == top_card[0] and self.active_card[1] == top_card[1]:
-                # check if hidden, if hidden, un-hide it
-                pass
-        '''
+        # in all other cases, if card is still hidden, move cannot be made
+        elif self.active_card[3] == 'back':
+            self.endMove()
+        
+        else:
+            # if target location is TABLEAU
+            if 'tableau' in self.active_pile2:
+                print('tableau seen')
+                if self.t_valid():
+                    print('tableau validated')
+                    # need to add case for trying to move multiple cards from one tableau to another
+                    self.flip_top(self.active_pile2)
+                    self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
+                self.endMove()
+            #if 'foundation' in self.active_pile2:
 
     def __init__(self):
         # create the deck
@@ -214,3 +196,43 @@ class Solitaire:
 
 if __name__ == "__main__":
     game = Solitaire()
+
+    '''
+    def move_cards(self, deck_id, init_pile_name, final_pile_name, amount):
+        # move top card from the init_pile to deck
+        for i in range(amount):
+            requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{init_pile_name}/return/')
+        # add all deck cards to final_pile
+        requests.get(f'https://www.deckofcardsapi.com/api/deck/{deck_id}/return/')
+        populate_pile(deck_id, final_pile_name, amount)
+
+    def check_top(self, deck_id, pile):
+        # figure out why pile is not updating asap. then remove the hard code
+        pile = 'stock'
+        card_list = requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/{pile}/list/').json()
+        return [card_list['piles'][pile]['cards'][0]['value'], card_list['piles'][pile]['cards'][0]['suit']]
+
+    def confirm_top(self, active_card, top_card):
+        if active_card[0] == top_card[0] and active_card[1] == top_card[1]:
+            return True
+        else:
+            return False
+
+    def return_waste(self, deck_id):
+        requests.get(f'https://deckofcardsapi.com/api/deck/{deck_id}/pile/waste/return/')
+    '''
+
+    
+    '''
+    top_card = self.check_top(self.deck_id, self.active_pile)
+    top = self.confirm_top(self.active_card, top_card)
+    # if active card is in a stock
+    if (self.active_pile == 'stock'):
+        if top and self.card_dict['stock'][0][3] == 'back':
+            self.card_dict['stock'][0][3] == 'front'
+    # if active card is in a tableau
+    if (self.active_pile == 'tableau1') or (self.active_pile == 'tableau2') or (self.active_pile == 'tableau3') or (self.active_pile == 'tableau4') or (self.active_pile == 'tableau5') or (self.active_pile == 'tableau6') or (self.active_pile == 'tableau7'):
+        if self.active_card[0] == top_card[0] and self.active_card[1] == top_card[1]:
+            # check if hidden, if hidden, un-hide it
+            pass
+    '''

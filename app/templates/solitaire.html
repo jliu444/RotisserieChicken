@@ -28,6 +28,8 @@
     <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
   </head>
 
+  <form action="{{ url_for('solitaire_setup') }}"><input type="submit" value="restart"></form>
+
   <p>{{ test_text2 }}</p>
   <p>
     {% for key, value in test_text.items() %}
