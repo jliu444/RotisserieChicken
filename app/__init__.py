@@ -198,6 +198,7 @@ def solitaire():
         else:
             solitaire_deck.active_pile = request.form.get('pile')
             solitaire_deck.active_card = string_to_list(request.form.get('card'))
+            print(solitaire_deck.active_card)
         solitaire_deck.play()
     else:
         solitaire_deck.active_deck = ''
