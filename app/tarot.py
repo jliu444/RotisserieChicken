@@ -14,21 +14,25 @@ import requests
 class Tarot:
 
     def __init__(self):
-        self.deck = self.generate_deck(20)  
+        self.deck = self.generate_deck(20)
+        self.active_cards = [self.display_info(self.deck[1]), self.display_info(self.deck[2])]  
 
 
 
     def request_cards(self):
-        return requests.get("https://tarotapi.dev/api/v1/cards/random").json() 
+        return requests.get("https://tarotapi.dev/api/v1/cards/random").json()
+        
         
     def generate_deck(self, num_cards):
         allcards = self.request_cards()
-        return allcards[0, num_cards]
+        return allcards["cards"][:num_cards]
         
     def display_info(self, card):
-        card_content = self.deck
-              
-
+        name = card['name']
+        meaning = card['meaning_up']
+        description = card['desc'].split(".")[:3]
+        return [name, meaning, description]
+        
         
 
 if __name__ == "__main__":

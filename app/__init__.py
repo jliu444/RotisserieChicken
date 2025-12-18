@@ -3,6 +3,7 @@ from flask import Flask, render_template, session, request, redirect, url_for
 from solitaire import Solitaire
 #from blackjack import Blackjack
 import poker
+from tarot import Tarot
 
 app = Flask(__name__)
 
@@ -166,9 +167,14 @@ def poker():
         player_hand=poker_game.hole_cards[0]
     )
 
+tarot_deck = Tarot()
+
 @app.route('/tarot', methods=["GET", "POST"])
 def tarot():
-    return render_template('tarot.html', username=session['username'])
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    return render_template('tarot.html', username=session['username'], deck=tarot_deck.deck, active_cards=tarot_deck.active_cards)
 
 # create solitaire game variable to prevent deck resets
 solitaire_deck = Solitaire()
