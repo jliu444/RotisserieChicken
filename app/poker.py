@@ -176,7 +176,7 @@ class Poker:
         data = response.json()
         self.deck_id = data["deck_id"]
         self.board_cards = []
-        self.hole_cards = []
+        self.hole_cards = [[], []]
 
         # Constants
         self.PLAYER = 0
@@ -189,15 +189,16 @@ class Poker:
         self.round_bets = [0, 0] # reset to [0, 0] every betting round
         self.winner = None
         self.is_game_over = False
-    
+        self.is_game_active = False
+
     def set_chips(self, num_chips: int):
         self.max_chips = num_chips
 
     def deal_hole(self):
         card_info = self.draw(4)["cards"]
         dealt_cards = [card_info[i] for i in range(len(card_info))]
-        self.hole_cards.append(dealt_cards[0::2])
-        self.hole_cards.append(dealt_cards[1::2])
+        self.hole_cards[self.PLAYER] = dealt_cards[0::2]
+        self.hole_cards[self.OPPONENT] = dealt_cards[1::2]
 
     def burn_card(self):
         return self.draw(1)

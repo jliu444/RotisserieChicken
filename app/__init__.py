@@ -152,10 +152,19 @@ def poker():
     user_data = c.fetchone()
     db.close()
 
+    if request.method == 'POST':
+        if 'start_game' in request.form and request.form['start_game'] == 'deal':
+            poker_game.is_game_active = True
+            poker_game.deal_hole()
+
     poker_game.set_chips(user_data[2])
 
-
-    return render_template('poker.html')
+    return render_template(
+        'poker.html',
+        is_game_active=poker_game.is_game_active,
+        opponent_hand=poker_game.hole_cards[1],
+        player_hand=poker_game.hole_cards[0]
+    )
 
 @app.route('/tarot', methods=["GET", "POST"])
 def tarot():

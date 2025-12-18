@@ -35,21 +35,26 @@
 
 
 
-  <div id = "Deck" class = "container">
-
+  <div id="Deck" class="container">
+    <img src = "https://www.deckofcardsapi.com/static/img/back.png" width=8% height=8%>
   </div>
 
+  {% if game is active %}
+  <div id="dealer_hand" class="container flex flex-row">
+    <img src={{ opponent_card_1 }}width=8% height=8%>
+    <img src="https://www.deckofcardsapi.com/static/img/back.png" width=8% height=8%>
+  </div>
+  {% endif %}
+  {% if game is active %}
+  <div id="player_hand" class="container flex flex-row">
+    <img src={{ player_card_1 }}width=8% height=8%>
+    <img src={{ player_card_2 }}width=8% height=8%>
+  </div>
+  {% endif %}
 
-  <div id = "player_hand" class = "container flex flex-row">
+  <div id = "hit_button" class = "button">
 
   </div>
-
-  <div id = "dealer_hand" class = "container flex flex-row">
-    <img src= >
-  </div>
-
-  <div id = "hit_button" class = "">
-
 
 
     </body>
