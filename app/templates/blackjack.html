@@ -35,27 +35,46 @@
 
 
 
-  <div id="Deck" class="container">
+  <div id="Deck" class="flex justify-center pt-10">
     <img src = "https://www.deckofcardsapi.com/static/img/back.png" width=8% height=8%>
   </div>
 
-  {% if game is active %}
-  <div id="dealer_hand" class="container flex flex-row">
-    <img src={{ opponent_card_1 }}width=8% height=8%>
-    <img src="https://www.deckofcardsapi.com/static/img/back.png" width=8% height=8%>
-  </div>
-  {% endif %}
-  {% if game is active %}
-  <div id="player_hand" class="container flex flex-row">
-    <img src={{ player_card_1 }}width=8% height=8%>
-    <img src={{ player_card_2 }}width=8% height=8%>
-  </div>
-  {% endif %}
 
+    {% if not is_game_active %}
+    <form action="" method="POST">
+        <button name="start_game" value="deal">Deal</button>
+    </form>
+    {% endif %}
+
+    {% if is_game_active %}
+  <div id="game" class="flex justify-center pt-10">
+       <div class="flex flex-col gap-10">
+         <div id="dealer_hand" class="flex flex-row">
+           <img src={{ opponent_card_1 }}width=20% height=20%>
+           <img src="https://www.deckofcardsapi.com/static/img/back.png" width=40% height=40%>
+         </div>
+         </div>
+         </div>
+      {% endfor %}
+
+    {% if is_game_active %}
+  <div id="player-hand" class="container flex flex-row">
+    {% for card in player_hand %}
+    <img class="aspect-auto w-1/6" src={{ card["image"] }}>
+    {% endfor %}
+  </div>
+
+
+  {% if is_game_active %}
   <div id = "hit_button" class = "button">
 
   </div>
-
+  {%endif%}
+  
+  <form action="" method="POST">
+    <h3 class="p-2 uppercase font-bold text-center bg-gray-500 rounded-lg">Bet Amount</h3>
+    <input class="mt-2 mb-8 rounded-base w-full border border-default-medium" type="text" name="bet">
+</form>
 
     </body>
 </html>
