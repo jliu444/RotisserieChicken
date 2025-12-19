@@ -12,7 +12,7 @@ DB_FILE = "data.db"
 
 poker_game: poker.Poker = None
 solitaire_deck = None
-tarot_deck = Tarot() 
+tarot_deck = Tarot()
 
 db = sqlite3.connect(DB_FILE)
 c = db.cursor()
@@ -148,7 +148,7 @@ def register():
 def poker_page():
     if 'username' not in session:
         return redirect(url_for('login'))
-    
+
     global poker_game
     if poker_game == None:
         poker_game = poker.Poker(0)
@@ -224,6 +224,13 @@ def solitaire():
         test_text=test_text,
         test_text2=test_text2,
         active_deck='')
+
+@app.route('/blackjack', methods=["GET", "POST"])
+def blackjack():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    render_template('blackjack.html')
 if __name__ == "__main__":
     app.debug = True
     app.run()
