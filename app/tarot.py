@@ -15,7 +15,7 @@ class Tarot:
 
     def __init__(self):
         self.deck = self.generate_deck(20)
-        self.active_cards = [self.display_info(self.deck[1]), self.display_info(self.deck[2])]  
+        self.active_cards = ["", ""]  
 
 
 
@@ -28,10 +28,20 @@ class Tarot:
         return allcards["cards"][:num_cards]
         
     def display_info(self, card):
+        if card == "":
+            return ["", "", ""]
+
         name = card['name']
         meaning = card['meaning_up']
-        description = card['desc'].split(".")[:3]
-        return [name, meaning, description]
+        descr_list = card['desc'].split(".")[:3]
+        descr_words = descr_list[0]
+        i = 1
+
+        for line in descr_list[1:]:
+            descr_words = descr_words + ". " + descr_list[i]
+            i=i+1
+
+        return [name, meaning, descr_words]
         
         
 

@@ -47,7 +47,7 @@
             <div class="w-1/2 flex flex-row">
 
                       <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
+                          <img src="../static/tarot_back.png" alt="unknown tarot card" name="card" value="00">
                       </button>
                       <button type="submit">
                           <img src="../static/tarot_back.png" alt="unknown tarot card">
@@ -78,11 +78,19 @@
         </div>
 
         <!-DESCRIPTION>
-        <div class="w-1/2 my-5 mx-5 bg-gray-400 flex flex-col items-center">        
-            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">CARD NAME some variable</h3>
-            <p class="p-2 text-center">{{ active_cards[0] }}</p>
+        <div class="w-1/2 flex flex-col items-center">
+        <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
+            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">{{ active_cards[0][0] }}</h3>
+            <p class="m-1 p-2 text-center">MEANING: {{ active_cards[0][1] }}</p>
+            <p class="m-1 p-2 text-center">DESCRIPTION: {{ active_cards[0][2] }}</p>
         </div>
 
+        <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
+            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">{{ active_cards[1][0] }}</h3>
+            <p class="m-1 p-2 text-center">MEANING: {{ active_cards[1][1] }}</p>
+            <p class="m-1 p-2 text-center">DESCRIPTION: {{ active_cards[1][2] }}</p>
+        </div>
+        </div>
     </div>
 
   </body>

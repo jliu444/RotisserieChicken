@@ -186,6 +186,16 @@ def tarot():
     if 'username' not in session:
         return redirect(url_for('login'))
 
+    if request.method == 'POST':
+        if tarot_deck.active_cards[0] != "" and tarot_deck.active_cards[1] != "":
+            tarot_deck.active_cards[0] = tarot_deck.display_info("")
+            tarot_deck.active_cards[1] = tarot_deck.display_info("")
+
+        if tarot_deck.active_cards[0] == "":
+            tarot_deck.active_cards[0] = tarot_deck.display_info(request.form.get('card'))
+        elif tarot_deck.active_cards[1] == "":
+            tarot_deck.active_cards[1] = tarot_deck.display_info(request.form.get('card'))
+
     return render_template('tarot.html', username=session['username'], deck=tarot_deck.deck, active_cards=tarot_deck.active_cards)
 
 @app.route('/solitaire_setup', methods=["GET", "POST"])
