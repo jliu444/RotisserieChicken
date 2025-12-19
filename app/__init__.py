@@ -10,7 +10,9 @@ app = Flask(__name__)
 app.secret_key = "testing"
 DB_FILE = "data.db"
 
-poker_game = poker.Poker(0)
+poker_game: poker.Poker = None
+solitaire_deck = None
+tarot_deck = Tarot() 
 
 db = sqlite3.connect(DB_FILE)
 c = db.cursor()
@@ -26,8 +28,8 @@ def startup():
         return redirect(url_for('floor'))
     else:
         text = ""
-        #return redirect(url_for('login', text=text))
-        return render_template('login.html', text=text)
+        return redirect(url_for('login', text=text))
+        # return render_template('login.html', text=text)
 
 @app.route("/logout")
 def logout():
@@ -112,6 +114,8 @@ def login():
             return render_template('login.html', text=text)
         else:
             session['username'] = username
+            global poker_game
+            poker_game = None
             return redirect(url_for('floor'))
     return render_template('login.html', text='')
 
@@ -141,9 +145,13 @@ def register():
     return render_template('register.html', text='')
 
 @app.route('/poker', methods=["GET", "POST"])
-def poker():
+def poker_page():
     if 'username' not in session:
         return redirect(url_for('login'))
+    
+    global poker_game
+    if poker_game == None:
+        poker_game = poker.Poker(0)
 
     username=session['username']
     db = sqlite3.connect(DB_FILE)
@@ -153,21 +161,25 @@ def poker():
     user_data = c.fetchone()
     db.close()
 
+    if not poker_game.is_game_active:
+        poker_game.set_chips(user_data[2])
+
     if request.method == 'POST':
         if 'start_game' in request.form and request.form['start_game'] == 'deal':
             poker_game.is_game_active = True
             poker_game.deal_hole()
 
-    poker_game.set_chips(user_data[2])
+        if poker_game.is_game_active:
+            if 'bet' in request.form and request.form['bet'] == 'next':
+                poker_game.deal_board(1)
 
     return render_template(
         'poker.html',
         is_game_active=poker_game.is_game_active,
         opponent_hand=poker_game.hole_cards[1],
-        player_hand=poker_game.hole_cards[0]
+        player_hand=poker_game.hole_cards[0],
+        board=poker_game.board_cards
     )
-
-tarot_deck = Tarot()
 
 @app.route('/tarot', methods=["GET", "POST"])
 def tarot():
@@ -175,9 +187,6 @@ def tarot():
         return redirect(url_for('login'))
 
     return render_template('tarot.html', username=session['username'], deck=tarot_deck.deck, active_cards=tarot_deck.active_cards)
-
-# create solitaire game variable to prevent deck resets
-solitaire_deck = Solitaire()
 
 @app.route('/solitaire_setup', methods=["GET", "POST"])
 def solitaire_setup():

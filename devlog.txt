@@ -114,3 +114,7 @@ more solitaire logic. stock pile functionality completed
 cindyL -- 2025-12-17 22:46
 added way more solitaire logic for recognizing cases, not yet finished 
 added restart function for solitaire 
+
+jakeL -- 2025-12-18 20:55
+created layout for poker.html
+basic dealing logic
