@@ -39,9 +39,9 @@
     <img src = "https://www.deckofcardsapi.com/static/img/back.png" width=8% height=8%>
   </div>
   {% if not is_game_active %}
-    <div id="Deck" class="flex justify-center pt-10">
+    <div id="start_game" class="flex justify-center pt-10">
 <form action="" method="POST">
-  <button name="start_game" value="deal">Deal</button>
+  <button name="start_game" class="p-2 uppercase font-bold text-center bg-gray-100 rounded-lg" value="deal">Deal</button>
 </form>
 </div>
   {% endif %}
@@ -56,7 +56,7 @@
          </div>
          </div>
          </div>
-      {% endfor %}
+  {%endif%}
 
     {% if is_game_active %}
   <div id="player-hand" class="container flex flex-row">
@@ -64,13 +64,19 @@
     <img class="aspect-auto w-1/6" src={{ card["image"] }}>
     {% endfor %}
   </div>
-
+  {%endif%}
 
   {% if is_game_active %}
-  <div id = "hit_button" class = "button">
+    <div id="buttons" class="flex justify-center pt-10 space-x-5">
+<form action="" method="POST">
+  <button name="hit" class="p-2 uppercase font-bold text-center bg-gray-100 rounded-lg" value="hit">|  Hit  |</button>
+</form>
+<form action="" method="POST">
+  <button name="stand" class="p-2 uppercase font-bold text-center bg-gray-100 rounded-lg" value="stand">|Stand|</button>
+</form>
+</div>
+  {% endif %}
 
-  </div>
-  {%endif%}
 
   <form action="" method="POST">
     <h3 class="p-2 uppercase font-bold text-center bg-gray-500 rounded-lg">Bet Amount</h3>

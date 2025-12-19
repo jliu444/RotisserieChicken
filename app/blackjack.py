@@ -90,6 +90,7 @@ class Blackjack:
     def stand(self):
         self.player_turn = not self.player_turn
 
+
     def end_game(self):
         self.game_active = False
         if self.winner:
