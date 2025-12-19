@@ -29,8 +29,10 @@
   </head>
 
   <form action="{{ url_for('solitaire_setup') }}"><input type="submit" value="restart"></form>
-
+  <!-- SHOWS ACTIVE CARDS, FOR TESTING
   <p>{{ test_text2 }}</p>
+  -->
+  <!-- SHOWS FULL DICTIONARY OF CARDS, FOR TESTING
   <p>
     {% for key, value in test_text.items() %}
       {{ key }}
@@ -41,257 +43,267 @@
       {% endfor %}
     {% endfor %}
   </p>
-  <div id="top" class="container flex flex-row">
+-->
+  {% if test_text['foundation1']|length == 13 and test_text['foundation2']|length == 13 and test_text['foundation3']|length == 13 and test_text['foundation4']|length == 13%}
+    <p> GAME COMPLETE!</p>
+  {% else %}
+    <div id="top" class="container flex flex-row">
 
-    <!--this is The Stock Pile -->
-    <div id="stock" class="container">
-      stock
-      <form method="POST" action="{{ url_for('solitaire') }}">
-        {% if test_text['stock'] %}
-          <input type="hidden" name="card" value="{{ test_text['stock'][0] }}">
-          <button type="submit" name="pile" value="stock">
-          <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau1 card" style="height:157px; width:113px;">
-        {% else %}
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="stock" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        {% endif %}
-        </button>
-      </form>
-    </div>
-
-    <!--this is The Waste Pile -->
-    <div id="waste" class="container">
-      waste<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-        {% if test_text['waste'] %}
-          <input type="hidden" name="card" value="{{ test_text['waste'][0] }}">
-          <button type="submit" name="pile" value="waste"><img src="{{ test_text['waste'][0][0] }}" alt="waste" class="border border-solid rounded-md" style="height:157px; width:113px;"></img></button>
-        {% else %}
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="waste" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        {% endif %}
-      </form>
-    </div>
-
-    <!--this is The 4 Foundations Piles-->
-    <div id="foundation" class="container flex flex-row">
-
-      <div id="foundation1">
-        foundation1
+      <!--this is The Stock Pile -->
+      <div id="stock" class="container">
+        stock
         <form method="POST" action="{{ url_for('solitaire') }}">
-        {% if test_text['foundation1'] %}
-          <input type="hidden" name="card" value="{{ test_text['foundation1'][0] }}">
-          <button type="submit" name="pile" value="foundation1">
-            <img src="{{ test_text['foundation1'][0][0] }}" alt="{{ test_text['foundation1'][0][1] }} {{ test_text['foundation1'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
+          {% if test_text['stock'] %}
+            <input type="hidden" name="card" value="{{ test_text['stock'][0] }}">
+            <button type="submit" name="pile" value="stock">
+            <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau1 card" style="height:157px; width:113px;">
+          {% else %}
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="stock" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          {% endif %}
           </button>
-        {% else %}
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="foundation1" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        {% endif %}
         </form>
       </div>
 
-      <div id="foundation2">
-        foundation2
+      <!--this is The Waste Pile -->
+      <div id="waste" class="container">
+        waste<br>
         <form method="POST" action="{{ url_for('solitaire') }}">
-        {% if test_text['foundation2'] %}
-          <input type="hidden" name="card" value="{{ test_text['foundation2'][0] }}">
-          <button type="submit" name="pile" value="foundation2">
-            <img src="{{ test_text['foundation2'][0][0] }}" alt="{{ test_text['foundation2'][0][1] }} {{ test_text['foundation2'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
-          </button>
-        {% else %}
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="foundation2" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        {% endif %}
+          {% if test_text['waste'] %}
+            <input type="hidden" name="card" value="{{ test_text['waste'][0] }}">
+            <button type="submit" name="pile" value="waste"><img src="{{ test_text['waste'][0][0] }}" alt="waste" class="border border-solid rounded-md" style="height:157px; width:113px;"></img></button>
+          {% else %}
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="waste" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          {% endif %}
         </form>
       </div>
 
-      <div id="foundation3">
-        foundation3
-        <form method="POST" action="{{ url_for('solitaire') }}">
-        {% if test_text['foundation3'] %}
-          <input type="hidden" name="card" value="{{ test_text['foundation3'][0] }}">
-          <button type="submit" name="pile" value="foundation3">
-            <img src="{{ test_text['foundation3'][0][0] }}" alt="{{ test_text['foundation3'][0][1] }} {{ test_text['foundation3'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
-          </button>
-        {% else %}
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="foundation3" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        {% endif %}
-        </form>
-      </div>
+      <!--this is The 4 Foundations Piles-->
+      <div id="foundation" class="container flex flex-row">
 
-      <div id="foundation4">
-        foundation4
-        <form method="POST" action="{{ url_for('solitaire') }}">
-        {% if test_text['foundation4'] %}
-          <input type="hidden" name="card" value="{{ test_text['foundation4'][0] }}">
-          <button type="submit" name="pile" value="foundation4">
-            <img src="{{ test_text['foundation4'][0][0] }}" alt="{{ test_text['foundation4'][0][1] }} {{ test_text['foundation4'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
-          </button>
-        {% else %}
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="foundation4" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        {% endif %}
-        </form>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!--this is The 7 Tableau Piles-->
-  <div id="tableau" class="container">
-
-    <div id="tableau1">
-      tableau1<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-      {% if test_text['tableau1'] %}
-        {% for item in test_text['tableau1']|reverse %}
-          <input type="hidden" name="card" value="{{ item }}">
-          <button type="submit" name="pile" value="tableau1">
-            {% if item[3] == 'back' %}
-              <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau1 card" style="height:157px; width:113px;">
-            {% else %}
-              <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-            {% endif %}
-          </button>
-        {% endfor %}
-      {% else %}
-        <input type="hidden" name="card" value="">
-        <button type="submit" name="pile" value="tableau1" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-      {% endif %}
-      </form>
-    </div>
-
-    <div id="tableau2">
-      tableau2<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-      {% if test_text['tableau2'] %}
-        {% for item in test_text['tableau2']|reverse %}
-          <input type="hidden" name="card" value="{{ item }}">
-          <button type="submit" name="pile" value="tableau2">
-            {% if item[3] == 'back' %}
-              <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau2 card" style="height:157px; width:113px;">
-            {% else %}
-              <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-            {% endif %}
-          </button>
-        {% endfor %}
-      {% else %}
-        <input type="hidden" name="card" value="">
-        <button type="submit" name="pile" value="tableau2" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-      {% endif %}
-      </form>
-    </div>
-
-    <div id="tableau3">
-      tableau3<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-      {% if test_text['tableau3'] %}
-        {% for item in test_text['tableau3']|reverse %}
-          <input type="hidden" name="card" value="{{ item }}">
-          <button type="submit" name="pile" value="tableau3">
-            {% if item[3] == 'back' %}
-              <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau3 card" style="height:157px; width:113px;">
-            {% else %}
-              <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-            {% endif %}
-          </button>
-        {% endfor %}
-      {% else %}
-        <input type="hidden" name="card" value="">
-        <button type="submit" name="pile" value="tableau3" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-      {% endif %}
-      </form>
-    </div>
-
-    <div id="tableau4">
-      tableau4<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-      {% if test_text['tableau4'] %}
-        {% for item in test_text['tableau4']|reverse %}
-          <input type="hidden" name="card" value="{{ item }}">
-          <button type="submit" name="pile" value="tableau4">
-            {% if item[3] == 'back' %}
-              <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau4 card" style="height:157px; width:113px;">
-            {% else %}
-              <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-            {% endif %}
-          </button>
-        {% endfor %}
-      {% else %}
-        <input type="hidden" name="card" value="">
-        <button type="submit" name="pile" value="tableau4" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-      {% endif %}
-      </form>
-    </div>
-
-    <div id="tableau5">
-      tableau5<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-      {% if test_text['tableau5'] %}
-        {% for item in test_text['tableau5']|reverse %}
-          <input type="hidden" name="card" value="{{ item }}">
-          <button type="submit" name="pile" value="tableau5">
-            {% if item[3] == 'back' %}
-              <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau5 card" style="height:157px; width:113px;">
-            {% else %}
-              <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-            {% endif %}
-          </button>
-        {% endfor %}
-      {% else %}
-        <input type="hidden" name="card" value="">
-        <button type="submit" name="pile" value="tableau5" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-      {% endif %}
-      </form>
-    </div>
-
-    <div id="tableau6">
-      tableau6<br>
-      <form method="POST" action="{{ url_for('solitaire') }}">
-      {% if test_text['tableau6'] %}
-        {% for item in test_text['tableau6']|reverse %}
-          <input type="hidden" name="card" value="{{ item }}">
-          <button type="submit" name="pile" value="tableau6">
-            {% if item[3] == 'back' %}
-              <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau6 card" style="height:157px; width:113px;">
-            {% else %}
-              <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-            {% endif %}
-          </button>
-        {% endfor %}
-      {% else %}
-        <input type="hidden" name="card" value="">
-        <button type="submit" name="pile" value="tableau6" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-      {% endif %}
-      </form>
-    </div>
-
-    tableau7<br>
-    <div id="tableau7" class="container">
-      {% if test_text['tableau7'] %}
-        {% for item in test_text['tableau7']|reverse %}
+        <div id="foundation1">
+          foundation1
           <form method="POST" action="{{ url_for('solitaire') }}">
-            <input type="hidden" name="card" value="{{ item }}">
-            <button type="submit" name="pile" value="tableau7">
-              {% if item[3] == 'back' %}
-                <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau7 card" style="height:157px; width:113px;">
-              {% else %}
-                <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
-              {% endif %}
+          {% if test_text['foundation1'] %}
+            <input type="hidden" name="card" value="{{ test_text['foundation1'][0] }}">
+            <button type="submit" name="pile" value="foundation1">
+              <img src="{{ test_text['foundation1'][0][0] }}" alt="{{ test_text['foundation1'][0][1] }} {{ test_text['foundation1'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
             </button>
+          {% else %}
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="foundation1" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          {% endif %}
           </form>
-        {% endfor %}
-      {% else %}
-        <form method="POST" action="{{ url_for('solitaire') }}">
-          <input type="hidden" name="card" value="">
-          <button type="submit" name="pile" value="tableau7" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
-        </form>
-      {% endif %}
+        </div>
+
+        <div id="foundation2">
+          foundation2
+          <form method="POST" action="{{ url_for('solitaire') }}">
+          {% if test_text['foundation2'] %}
+            <input type="hidden" name="card" value="{{ test_text['foundation2'][0] }}">
+            <button type="submit" name="pile" value="foundation2">
+              <img src="{{ test_text['foundation2'][0][0] }}" alt="{{ test_text['foundation2'][0][1] }} {{ test_text['foundation2'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
+            </button>
+          {% else %}
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="foundation2" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          {% endif %}
+          </form>
+        </div>
+
+        <div id="foundation3">
+          foundation3
+          <form method="POST" action="{{ url_for('solitaire') }}">
+          {% if test_text['foundation3'] %}
+            <input type="hidden" name="card" value="{{ test_text['foundation3'][0] }}">
+            <button type="submit" name="pile" value="foundation3">
+              <img src="{{ test_text['foundation3'][0][0] }}" alt="{{ test_text['foundation3'][0][1] }} {{ test_text['foundation3'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
+            </button>
+          {% else %}
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="foundation3" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          {% endif %}
+          </form>
+        </div>
+
+        <div id="foundation4">
+          foundation4
+          <form method="POST" action="{{ url_for('solitaire') }}">
+          {% if test_text['foundation4'] %}
+            <input type="hidden" name="card" value="{{ test_text['foundation4'][0] }}">
+            <button type="submit" name="pile" value="foundation4">
+              <img src="{{ test_text['foundation4'][0][0] }}" alt="{{ test_text['foundation4'][0][1] }} {{ test_text['foundation4'][0][2] }}" class="border border-solid rounded-md" style="height:157px; width:113px;">
+            </button>
+          {% else %}
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="foundation4" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          {% endif %}
+          </form>
+        </div>
+
+      </div>
+
     </div>
 
-  </div>
+    <!--this is The 7 Tableau Piles-->
+    <div id="tableau" class="container flex flex-row">
+
+      <div id="tableau1" class="container">
+        {% if test_text['tableau1'] %}
+          {% for item in test_text['tableau1']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau1">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau1 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau1" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="tableau2" class="container">
+        {% if test_text['tableau2'] %}
+          {% for item in test_text['tableau2']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau2">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau2 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau2" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="tableau3" class="container">
+        {% if test_text['tableau3'] %}
+          {% for item in test_text['tableau3']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau3">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau3 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau3" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="tableau4" class="container">
+        {% if test_text['tableau4'] %}
+          {% for item in test_text['tableau4']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau4">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau4 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau4" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="tableau5" class="container">
+        {% if test_text['tableau5'] %}
+          {% for item in test_text['tableau5']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau5">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau5 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau5" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="tableau6" class="container">
+        {% if test_text['tableau6'] %}
+          {% for item in test_text['tableau6']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau6">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau6 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau6" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="tableau7" class="container">
+        {% if test_text['tableau7'] %}
+          {% for item in test_text['tableau7']|reverse %}
+            <form method="POST" action="{{ url_for('solitaire') }}">
+              <input type="hidden" name="card" value="{{ item }}">
+              <button type="submit" name="pile" value="tableau7">
+                {% if item[3] == 'back' %}
+                  <img src="https://deckofcardsapi.com/static/img/back.png" alt="tableau7 card" style="height:157px; width:113px;">
+                {% else %}
+                  <img src="{{ item[0] }}" alt="{{ item[1] }} {{ item[2] }}" style="height:157px; width:113px;">
+                {% endif %}
+              </button>
+            </form>
+          {% endfor %}
+        {% else %}
+          <form method="POST" action="{{ url_for('solitaire') }}">
+            <input type="hidden" name="card" value="">
+            <button type="submit" name="pile" value="tableau7" class="border border-solid rounded-md" style="padding-top:157px; padding-left:113px;"></button>
+          </form>
+        {% endif %}
+      </div>
+
+    </div>
+  {% endif %}
   <br>
 </html>

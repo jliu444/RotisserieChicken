@@ -61,7 +61,13 @@ class Solitaire:
         self.active_card2 = []
         self.active_pile2 = ''
 
+    def card_location(self, pile, card):
+        return self.card_dict[pile].index(card)
+
     def t_valid(self):
+        #you can never move a card into a spot that isn't at the top of a tableau
+        if self.card_location(self.active_pile2, self.active_card2) != 0:
+            return False
         ac_color = self.getColor(self.active_card)
         ac_number = self.getNumber(self.active_card)
         if self.card_dict[self.active_pile2] == []:
@@ -131,7 +137,8 @@ class Solitaire:
                 if self.t_valid():
                     print('tableau validated')
                     # need to add case for trying to move multiple cards from one tableau to another
-                    self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
+                    for i in range (self.card_location(self.active_pile,self.active_card), -1, -1):
+                        self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(i))
                 self.endMove()
             if 'foundation' in self.active_pile2:
                 print('foundation seen')
