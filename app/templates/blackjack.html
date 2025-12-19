@@ -38,13 +38,14 @@
   <div id="Deck" class="flex justify-center pt-10">
     <img src = "https://www.deckofcardsapi.com/static/img/back.png" width=8% height=8%>
   </div>
+  {% if not is_game_active %}
+    <div id="Deck" class="flex justify-center pt-10">
+<form action="" method="POST">
+  <button name="start_game" value="deal">Deal</button>
+</form>
+</div>
+  {% endif %}
 
-
-    {% if not is_game_active %}
-    <form action="" method="POST">
-        <button name="start_game" value="deal">Deal</button>
-    </form>
-    {% endif %}
 
     {% if is_game_active %}
   <div id="game" class="flex justify-center pt-10">
@@ -70,7 +71,7 @@
 
   </div>
   {%endif%}
-  
+
   <form action="" method="POST">
     <h3 class="p-2 uppercase font-bold text-center bg-gray-500 rounded-lg">Bet Amount</h3>
     <input class="mt-2 mb-8 rounded-base w-full border border-default-medium" type="text" name="bet">
