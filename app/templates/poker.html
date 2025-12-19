@@ -30,7 +30,7 @@
     </div>
 
     {% if not is_game_active %}
-    <form action="" method="POST">
+    <form action="" method="POST" class="flex flex-row min-h-screen justify-center items-center">
         <button name="start_game" value="deal">Deal</button>
     </form>
     {% endif %}
@@ -38,27 +38,27 @@
     {% if is_game_active %}
     <div id="game" class="flex justify-center pt-10">
       <div class="flex flex-col gap-20">
-        <div id="opponent-hand" class="container flex flex-row">
+        <div id="opponent-hand" class="container flex flex-row space-x-1">
           {% for card in opponent_hand %}
-          <img class="aspect-auto w-1/6" src={{ card["image"] }}>
+          <img class="aspect-auto w-1/4" src={{ card["image"] }}>
           {% endfor %}
         </div>
 
-        <div id="board" class="container flex flex-row">
+        <div id="board" class="container flex flex-row space-x-1">
           {% for card in board %}
-          <img class="aspect-auto w-1/6" src={{ card["image"] }}>
+          <img class="aspect-auto w-1/4" src={{ card["image"] }}>
           {% endfor %}
         </div>
 
-        <div id="player-hand" class="container flex flex-row">
+        <div id="player-hand" class="container flex flex-row space-x-1">
           {% for card in player_hand %}
-          <img class="aspect-auto w-1/6" src={{ card["image"] }}>
+          <img class="aspect-auto w-1/4" src={{ card["image"] }}>
           {% endfor %}
         </div>
 
         <form action="" method="POST">
             <h3 class="p-2 uppercase font-bold text-center bg-gray-500 rounded-lg">Bet Amount</h3>
-            <input class="mt-2 mb-8 rounded-base w-full border border-default-medium" type="text" name="bet">
+            <input class="mt-2 mb-8 rounded-base w-full border border-default-medium" type="text" name="bet_amt">
         </form>
       </div>
     </div>
