@@ -37,61 +37,76 @@
     <h3 class="p-2 mx-5">How to Play: Flip over two cards at a time.
         Try to remember the location of each card and find the matching pairs.
         Explore the meaning of the card using the description on the side!</h3>
+   
+    {% if not game_won %}
 
-    <!-SCREEN>
-    <div class="flex flex-row">
+        <!-SCREEN>
+        <div class="relative flex flex-row">
 
-        <!-CARD GRID>
-        <div class="flex flex-col">        
-        
-            <div class="w-1/2 flex flex-row">
+            <!-CARD GRID>
+            <div class="w-1/2 m-5 p-1 bg-gray-400 grid grid-cols-7">
+                {% for card in deck %}
+                <div class="m-1">
 
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card" name="card" value="00">
-                      </button>
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
-            </div>
-            <div class="w-1/2 flex flex-row">
-
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
-                      <button type="submit">
-                          <img src="../static/tarot_back.png" alt="unknown tarot card">
-                      </button>
+                    {% if card.get("matched") %}
+                        <div class="h-[115px] w-[100px] bg-transparent"></div>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('tarot') }}">
+                            <button type="submit" name="card" value="{{ loop.index0 }}">
+                                {% if loop.index0 in active_indices %}
+                                    <div class="h-[115px] w-[100px] bg-gray-400 text-white font-bold flex items-center justify-center text-center text-sm">
+                                        {{ card["name"] }}
+                                    </div>
+                                {% else %}
+                                    <img class="h-[115px] w-[100px]"
+                                        src="../static/tarot_back.png"
+                                        alt="unknown tarot card">
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
             </div>
 
-        </div>
 
-        <!-DESCRIPTION>
-        <div class="w-1/2 flex flex-col items-center">
-        <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
-            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">{{ active_cards[0][0] }}</h3>
-            <p class="m-1 p-2 text-center">MEANING: {{ active_cards[0][1] }}</p>
-            <p class="m-1 p-2 text-center">DESCRIPTION: {{ active_cards[0][2] }}</p>
-        </div>
+            <!-DESCRIPTION>
+            <div class="w-1/2 inset-y-0 right-0 flex flex-col">
+                <div class="flex flex-col">
+                    <div class="m-5 bg-gray-400 flex flex-col items-center">        
+                        <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">{{ active_cards[0][0] }}</h3>
+                        <p class="my-1 mx-5 text-left font-bold text-[12px]">MEANING:</p>
+                        <p class="my-1 mx-5 text-left text-[12px]">{{ active_cards[0][1] }}</p>
+                        <p class="my-1 mx-5 text-left font-bold text-[12px]">DESCRIPTION:</p>
+                        <p class="my-1 mx-5 text-left text-[12px]">{{ active_cards[0][2] }}</p>
+                    </div>
 
-        <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
-            <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">{{ active_cards[1][0] }}</h3>
-            <p class="m-1 p-2 text-center">MEANING: {{ active_cards[1][1] }}</p>
-            <p class="m-1 p-2 text-center">DESCRIPTION: {{ active_cards[1][2] }}</p>
+                    <div class="m-5 bg-gray-400 flex flex-col items-center">        
+                        <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500 text-white">{{ active_cards[1][0] }}</h3>
+                        <p class="m-1 mx-5 text-left font-bold text-[12px]">MEANING:</p>
+                        <p class="m-1 mx-5 text-left text-[12px]">{{ active_cards[1][1] }}</p>
+                        <p class="m-1 mx-5 text-left font-bold text-[12px]">DESCRIPTION:</p>
+                        <p class="m-1 mx-5 text-left text-[12px]">{{ active_cards[1][2] }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
+    
+    {% else %}
+
+    <div class="mx-[30%]">
+        <div class="w-[500px] my-5 bg-gray-400 rounded-md">
+            <form action="{{ url_for('reset_tarot') }}" method="POST" class="my-3 flex flex-col items-center">
+                <h3 class="my-3 p-2 uppercase font-bold text-center bg-gray-500 rounded-lg">You've Completed the Tarot Matching Game</h3>
+
+                <h3></h3>            
+                <input class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 mb-5 px-5" type="submit" value="RESET">          
+
+            </form>
         </div>
     </div>
+    
+    {% endif %}
 
   </body>
 </html>

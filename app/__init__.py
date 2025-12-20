@@ -181,22 +181,58 @@ def poker_page():
         board=poker_game.board_cards
     )
 
+@app.route('/reset_tarot', methods=["GET", "POST"])
+def reset_tarot():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
+    tarot_deck.deck = tarot_deck.generate_deck(4)
+    tarot_deck.active_card_ids = [None, None]
+
+    active_info = []
+    for idx in tarot_deck.active_card_ids:
+        if idx is None:
+            active_info.append(["", "", "", ""])
+        else:
+            active_info.append(tarot_deck.display_info(tarot_deck.deck[idx]))
+
+    return render_template('tarot.html', username=session['username'], deck=tarot_deck.deck, active_cards=active_info, active_indices=tarot_deck.active_card_ids, game_won=False)
+
+
 @app.route('/tarot', methods=["GET", "POST"])
 def tarot():
     if 'username' not in session:
         return redirect(url_for('login'))
-
+        
     if request.method == 'POST':
-        if tarot_deck.active_cards[0] != "" and tarot_deck.active_cards[1] != "":
-            tarot_deck.active_cards[0] = tarot_deck.display_info("")
-            tarot_deck.active_cards[1] = tarot_deck.display_info("")
+        card_input = request.form.get('card')
 
-        if tarot_deck.active_cards[0] == "":
-            tarot_deck.active_cards[0] = tarot_deck.display_info(request.form.get('card'))
-        elif tarot_deck.active_cards[1] == "":
-            tarot_deck.active_cards[1] = tarot_deck.display_info(request.form.get('card'))
+        if card_input is not None and card_input.isdigit():
+            card_index = int(card_input)
 
-    return render_template('tarot.html', username=session['username'], deck=tarot_deck.deck, active_cards=tarot_deck.active_cards)
+            if (tarot_deck.active_card_ids[0] is None) or (None not in tarot_deck.active_card_ids):
+                tarot_deck.active_card_ids = [None, None]
+                tarot_deck.active_card_ids[0] = card_index
+            elif tarot_deck.active_card_ids[1] is None and tarot_deck.active_card_ids[0] is not card_index:
+                tarot_deck.active_card_ids[1] = card_index
+    
+    i1, i2 = tarot_deck.active_card_ids
+    if i1 is not None and i2 is not None:
+        if tarot_deck.deck[i1]["name"] == tarot_deck.deck[i2]["name"]:
+            tarot_deck.deck[i1]["matched"] = True
+            tarot_deck.deck[i2]["matched"] = True
+            tarot_deck.active_card_ids = [None, None]
+
+    active_info = []
+    for idx in tarot_deck.active_card_ids:
+        if idx is None:
+            active_info.append(["", "", "", ""])
+        else:
+            active_info.append(tarot_deck.display_info(tarot_deck.deck[idx]))
+
+    game_won = tarot_deck.all_matched()
+
+    return render_template('tarot.html', username=session['username'], deck=tarot_deck.deck, active_cards=active_info, active_indices=tarot_deck.active_card_ids, game_won=game_won)
 
 @app.route('/solitaire_setup', methods=["GET", "POST"])
 def solitaire_setup():

@@ -10,30 +10,30 @@ if third card is flipped, it becomes the first card flipped
 '''
 
 import requests
+import random
 
 class Tarot:
 
     def __init__(self):
-        self.deck = self.generate_deck(20)
-        self.active_cards = ["", ""]  
-
-
+        self.deck = self.generate_deck(4)
+        self.active_card_ids = [None, None]
 
     def request_cards(self):
         return requests.get("https://tarotapi.dev/api/v1/cards/random").json()
         
-        
     def generate_deck(self, num_cards):
         allcards = self.request_cards()
-        return allcards["cards"][:num_cards]
+        allcards = allcards["cards"][:num_cards] * 2
+        random.shuffle(allcards)
+        return allcards
         
     def display_info(self, card):
-        if card == "":
-            return ["", "", ""]
+        if card == None:
+            return ["", "", "", ""]
 
-        name = card['name']
-        meaning = card['meaning_up']
-        descr_list = card['desc'].split(".")[:3]
+        name = card["name"]
+        meaning = card["meaning_up"]
+        descr_list = card["desc"].split(".")[:3]
         descr_words = descr_list[0]
         i = 1
 
@@ -41,8 +41,10 @@ class Tarot:
             descr_words = descr_words + ". " + descr_list[i]
             i=i+1
 
-        return [name, meaning, descr_words]
+        return [name, meaning, descr_words, None]
         
+    def all_matched(self):
+        return all(card.get("matched", False) for card in self.deck)
         
 
 if __name__ == "__main__":
