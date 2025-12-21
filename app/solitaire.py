@@ -1,4 +1,12 @@
 '''
+  Jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-20
+  time spent: 15h
+'''
+'''
 Concept:
 - add a restart button
   - user selects 1 item from FOUNDATIONS, STOCK, WASTE, OR TABLEAU and calls the function
@@ -18,8 +26,9 @@ Concept:
           -> if card on top of foundation is (different house) OR (not next #): INVALID move
           -> if active card is NOT top of pile: INVALID move
           -> ELSE: move card into foundation
-
 '''
+
+
 import requests
 
 class Solitaire:
@@ -152,18 +161,18 @@ class Solitaire:
         else:
             # if target location is TABLEAU
             if 'tableau' in self.active_pile2:
-                print('tableau seen')
+                #print('tableau seen')
                 if self.t_valid():
-                    print('tableau validated')
+                    #print('tableau validated')
                     # need to add case for trying to move multiple cards from one tableau to another
                     for i in range (self.card_location(self.active_pile,self.active_card), -1, -1):
                         self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(i))
                 self.endMove()
                 return 
             if 'foundation' in self.active_pile2:
-                print('foundation seen')
+                #print('foundation seen')
                 if self.f_valid():
-                    print('foundation validated')
+                    #print('foundation validated')
                     self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
                 self.endMove()
                 return

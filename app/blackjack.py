@@ -1,3 +1,11 @@
+'''
+  Jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-20
+  time spent: 2h
+'''
 # <!--Concept of this page:
 #   make house
 #   - if house value under 17, hit

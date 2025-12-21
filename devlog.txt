@@ -131,3 +131,10 @@ added withdrawing money into account
 
 cindyL -- 2025-12-20 22:54
 solitaire works even if you do something stupid (i played 2 hours of solitaire just to test end sequence...)
+
+cindyL -- 2025-12-20 23:19
+created solitaire cheat page
+added a cheat button for solitaire
+added evil insults for solitaire cheat page
+added headers to every py file
+removed visible remnants of game history function (just in case)

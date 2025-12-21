@@ -26,7 +26,7 @@
   SoftDev
   P01
   2025-12-3
-  time spent: 1.5
+  time spent: 3h
  -->
 
 <html>
@@ -70,6 +70,7 @@
   {% if test_text['foundation1']|length == 13 and test_text['foundation2']|length == 13 and test_text['foundation3']|length == 13 and test_text['foundation4']|length == 13%}
     <h1 class="text-3xl text-center">GAME COMPLETE!</h1>
   {% else %}
+    <h2 class="text-xl text-center"><form action="{{ url_for('solitaire_cheat') }}"><input type="submit" value="cheat"></form></h2>
     <p class="text-center">{{ test_text2 }}</p>
     <div id="top" class="container flex flex-row">
 

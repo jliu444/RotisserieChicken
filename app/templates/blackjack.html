@@ -51,7 +51,7 @@
   <div id="game" class="flex justify-center pt-10">
        <div class="flex flex-col gap-10">
          <div id="dealer_hand" class="flex flex-row">
-           <img src={{ opponent_card_1 }}width=20% height=20%>
+           <img src="{{ opponent_card_1 }}" width=20% height=20%>
            <img src="https://www.deckofcardsapi.com/static/img/back.png" width=40% height=40%>
          </div>
          </div>
@@ -61,7 +61,7 @@
     {% if is_game_active %}
   <div id="player-hand" class="container flex flex-row">
     {% for card in player_hand %}
-    <img class="aspect-auto w-1/6" src={{ card["image"] }}>
+    <img class="aspect-auto w-1/6" src="{{ card['image'] }}">
     {% endfor %}
   </div>
   {%endif%}
