@@ -52,15 +52,16 @@
       </div>
     </div>
 
-              {% if game_history %}
-                {% for game in game_history %}
-                    <h3>{{ game['title'] }}</h3>
-                    <p>{{ game['win_rate'] }}</p>
-                {% endfor %}
-              {% else %}
-                <p>You haven't played any games yet.</p>
-              {% endif %}
-
+    <!-- ONLY USE THIS SECTION IF GAME HISTORY IS IMPLEMENTED
+      {% if game_history %}
+        {% for game in game_history %}
+          <h3>{{ game['title'] }}</h3>
+          <p>{{ game['win_rate'] }}</p>
+        {% endfor %}
+      {% else %}
+        <p>You haven't played any games yet.</p>
+      {% endif %}
+    -->
     </div>
 
   </body>

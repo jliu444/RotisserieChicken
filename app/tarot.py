@@ -1,4 +1,12 @@
 '''
+  Jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-20
+  time spent: 4h
+'''
+'''
 Generate a list of random tarot cards, and double it
 Paste them randomly in a grid, all with a back card cover image
 Front cover image?

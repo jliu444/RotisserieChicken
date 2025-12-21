@@ -26,7 +26,7 @@
   SoftDev
   P01
   2025-12-3
-  time spent: 1.5
+  time spent: 3h
  -->
 
 <html>
@@ -54,10 +54,7 @@
 
     <h1 class="text-3xl text-center uppercase my-3 font-bold">Solitaire</h1>
 
-  <form action="{{ url_for('solitaire_setup') }}"><input type="submit" value="restart"></form>
-  <!-- SHOWS ACTIVE CARDS, FOR TESTING
-  <p>{{ test_text2 }}</p>
-  -->
+  <h2 class="text-3xl text-center"><form action="{{ url_for('solitaire_setup') }}"><input type="submit" value="restart"></form></h2>
   <!-- SHOWS FULL DICTIONARY OF CARDS, FOR TESTING
   <p>
     {% for key, value in test_text.items() %}
@@ -71,8 +68,10 @@
   </p>
 -->
   {% if test_text['foundation1']|length == 13 and test_text['foundation2']|length == 13 and test_text['foundation3']|length == 13 and test_text['foundation4']|length == 13%}
-    <p> GAME COMPLETE!</p>
+    <h1 class="text-3xl text-center">GAME COMPLETE!</h1>
   {% else %}
+    <h2 class="text-xl text-center"><form action="{{ url_for('solitaire_cheat') }}"><input type="submit" value="cheat"></form></h2>
+    <p class="text-center">{{ test_text2 }}</p>
     <div id="top" class="container flex flex-row">
 
       <!--this is The Stock Pile -->

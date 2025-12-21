@@ -1,3 +1,11 @@
+'''
+  Jake Liu, Cindy Liu, Veronika Duvanova, Robert Chen
+  RotisserieChicken
+  SoftDev
+  P01
+  2025-12-20
+  time spent: 4h
+'''
 import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from solitaire import Solitaire
@@ -19,7 +27,7 @@ tarot_deck = Tarot()
 db = sqlite3.connect(DB_FILE)
 c = db.cursor()
 
-c.execute("CREATE TABLE IF NOT EXISTS user_info(user TEXT, pw TEXT, bal INTEGER, game_history TEXT, WL_by_game TEXT);")
+c.execute("CREATE TABLE IF NOT EXISTS user_info(user TEXT, pw TEXT, bal INTEGER, game_history TEXT);")
 
 db.commit()
 db.close()
@@ -368,6 +376,11 @@ def solitaire():
         test_text=test_text,
         test_text2=test_text2,
         active_deck='')
+
+@app.route('/solitaire_cheat', methods=["GET", "POST"])
+def solitaire_cheat():
+    insult=requests.get('https://evilinsult.com/generate_insult.php?lang=en&type=json').json()["insult"]
+    return render_template('solitaire_cheat.html', insult=insult)
 
 @app.route('/blackjack', methods=["GET", "POST"])
 def blackjack_page():
