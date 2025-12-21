@@ -223,7 +223,7 @@ def poker_page():
             if request.form.get("bet_amt") != None:
                 try:
                     bet_amt = int(request.form.get("bet_amt"))
-                    error = poker_game.make_bet_or_raise_to(bet_amt)
+                    poker_game.make_bet_or_raise_to(bet_amt)
 
                     username=session['username']
                     db = sqlite3.connect(DB_FILE)
@@ -232,8 +232,12 @@ def poker_page():
                     c.execute(cmd, (bet_amt, username))
                     db.commit()
                     db.close()
-                except ValueError:
-                    error = "Bet size must be an integer value!"
+                except ValueError as e:
+                    if str(e) != "Bet/Raise amount must be greater than opponent's bet." and \
+                        str(e) != "Bet/Raise amount exceeds player's chip count.":
+                        error = "Bet size must be an integer value!" 
+                    else:
+                        error = e
         if poker_game.is_game_over:
             if request.form.get('player_action') == 'RESTART':
                 username=session['username']

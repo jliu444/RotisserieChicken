@@ -239,13 +239,13 @@ class Poker:
         self.has_made_action[self.player_to_move] = True
 
         if amt <= max(self.round_bets):
-            return "Bet/Raise amount must be greater than opponent's bet."
+            raise ValueError("Bet/Raise amount must be greater than opponent's bet.")
 
         curr_bet = self.round_bets[self.player_to_move]
         to_bet = amt - curr_bet
 
         if self.stakes[self.player_to_move] + to_bet > self.max_chips:
-            return "Bet/Raise amount exceeds player's chip count."
+            raise ValueError("Bet/Raise amount exceeds player's chip count.")
 
         self.stakes[self.player_to_move] += to_bet
         self.round_bets[self.player_to_move] += to_bet
