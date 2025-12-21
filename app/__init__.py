@@ -27,7 +27,7 @@ tarot_deck = Tarot()
 db = sqlite3.connect(DB_FILE)
 c = db.cursor()
 
-c.execute("CREATE TABLE IF NOT EXISTS user_info(user TEXT, pw TEXT, bal INTEGER, game_history TEXT);")
+c.execute("CREATE TABLE IF NOT EXISTS user_info(user TEXT, pw TEXT, bal INTEGER, game_history TEXT, WL_by_game TEXT);")
 
 db.commit()
 db.close()
