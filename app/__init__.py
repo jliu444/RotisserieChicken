@@ -1,7 +1,7 @@
 import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from solitaire import Solitaire
-#from blackjack import Blackjack
+import blackjack
 import poker
 from tarot import Tarot
 
@@ -11,6 +11,7 @@ app.secret_key = "testing"
 DB_FILE = "data.db"
 
 poker_game: poker.Poker = None
+blackjack_game = None
 poker_deal_amts = [3, 1, 1]
 solitaire_deck = None
 tarot_deck = Tarot()
@@ -37,6 +38,8 @@ def logout():
     session.pop('username', None)
     global poker_game
     poker_game = None
+    global blackjack_game
+    blackjack_game = None
     return redirect(url_for('startup'))
 
 @app.route("/change_username", methods=["GET", "POST"])
@@ -101,9 +104,7 @@ def change():
 def charge():
     msg = ""
     if request.method == "POST":
-        print("in11")
         if request.form.get("withdraw") != None:
-            print("in")
             try:
                 withdraw_amt = int(request.form.get("withdraw"))
                 username=session['username']
@@ -256,6 +257,10 @@ def poker_page():
     c.execute(cmd, (username,))
     user_data = c.fetchone()
     db.close()
+
+    insult = ""
+    if poker_game.is_game_over:
+        insult = requests.get("https://evilinsult.com/generate_insult.php?lang=en&type=json").json()["insult"]
                
     return render_template(
         'poker.html',
@@ -270,7 +275,8 @@ def poker_page():
         final_hand=poker_game.final_hands,
         is_game_over=poker_game.is_game_over,
         winner=poker_game.winner,
-        balance=user_data[2]
+        balance=user_data[2],
+        insult=insult
     )
 
 @app.route('/reset_tarot', methods=["GET", "POST"])
@@ -364,11 +370,128 @@ def solitaire():
         active_deck='')
 
 @app.route('/blackjack', methods=["GET", "POST"])
-def blackjack():
+def blackjack_page():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    return render_template('blackjack.html')
+    global blackjack_game
+    if blackjack_game == None:
+        blackjack_game = blackjack.Blackjack()
+    
+    error = ""
+    winner = 0
+    bet_amt = 0
+
+    username=session['username']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    cmd = "SELECT * FROM user_info WHERE user =?"
+    c.execute(cmd, (username,))
+    user_data = c.fetchone()
+    db.close()
+    balance = user_data[2]
+
+    if request.method == "POST":
+        if request.form.get('bet_amt') != None:
+            try:
+                bet_amt = int(request.form.get("bet_amt"))
+                if bet_amt > balance:
+                    raise ValueError("Cannot bet more than balance.")
+                if bet_amt <= 0:
+                    raise ValueError("Bets must be positive")
+
+                blackjack_game.set_bet(bet_amt)
+                username=session['username']
+                db = sqlite3.connect(DB_FILE)
+                c = db.cursor()
+                cmd = "UPDATE user_info SET bal=bal - ? WHERE user =?"
+                c.execute(cmd, (bet_amt, username))
+                db.commit()
+                db.close()
+                blackjack_game.game_active = True
+                blackjack_game.deal()
+            except ValueError as e:
+                if str(e) != "Cannot bet more than balance." and \
+                    str(e) != "Bets must be positive":
+                    error = "Bet must be an integer value"
+                else:
+                    error = e
+
+        if blackjack_game.player_turn:
+            action = request.form.get('player_action')
+            if action == 'HIT':
+                blackjack_game.hit()
+            elif action == 'STAND':
+                blackjack_game.stand()
+        elif request.form.get('player_action') == 'NEXT':
+            blackjack_game.dealer_move()
+
+        if blackjack_game.game_over:
+            if request.form.get('player_action') == 'RESTART':
+                username=session['username']
+                db = sqlite3.connect(DB_FILE)
+                c = db.cursor()
+                cmd = "SELECT * FROM user_info WHERE user =?"
+                c.execute(cmd, (username,))
+                user_data = c.fetchone()
+                db.close()
+                blackjack_game.reset_game()
+
+    player_score = 0
+    if blackjack_game.game_active:
+        player_score = blackjack_game.score('Player')
+
+    dealer_score = 0
+    if blackjack_game.game_active and \
+        not blackjack_game.player_turn:
+        dealer_score = blackjack_game.score('Dealer')
+
+    winner = blackjack_game.get_winner()
+    if winner != 0:
+        blackjack_game.game_over = True
+        db = sqlite3.connect(DB_FILE)
+        username=session['username']
+        cmd = "UPDATE user_info SET bal=bal + ? WHERE user =?"
+        c = db.cursor()
+
+        if winner == 1:
+            c.execute(cmd, (2 * blackjack_game.bet, username))
+        if winner == 0:
+            c.execute(cmd, (blackjack_game.bet, username))
+
+        db.commit()
+        db.close()
+
+    username=session['username']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    cmd = "SELECT * FROM user_info WHERE user =?"
+    c.execute(cmd, (username,))
+    user_data = c.fetchone()
+    db.close()
+    balance = user_data[2]
+
+    insult = ""
+    if blackjack_game.game_over:
+        insult = requests.get("https://evilinsult.com/generate_insult.php?lang=en&type=json").json()["insult"]
+
+    return render_template(
+        'blackjack.html',
+        is_game_active=blackjack_game.game_active,
+        is_game_over=blackjack_game.game_over,
+        is_player_turn=blackjack_game.player_turn,
+        opponent_hand=blackjack_game.dealer_hand,
+        player_hand=blackjack_game.hand,
+        error=error,
+        balance=balance,
+        pot=2*blackjack_game.bet,
+        winner=winner,
+        score=player_score,
+        dealer_score=dealer_score,
+        bet_amt=bet_amt,
+        insult=insult
+    )
+
 if __name__ == "__main__":
     app.debug = True
     app.run()

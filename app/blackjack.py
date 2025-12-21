@@ -17,24 +17,28 @@ import requests
 
 
 class Blackjack:
-    def __init__(self, bet: int):
+    def __init__(self):
         response = requests.get(f"https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
         data = response.json()
         self.deck_id = data["deck_id"]
 
-        self.bet = bet
+        self.bet = 0 
 
+        self.winner = 0 # 0 = tie, 1 = player, 2 = dealer 
         self.game_active = False
-        self.hand = []
-        self.dealer_hand = []
+        self.hand = [1, 1]
+        self.dealer_hand = [1, 1]
         self.player_turn = True
-        self.winner = False
+        self.game_over = False
+    
+    def set_bet(self, bet_amt: int):
+        self.bet = bet_amt
 
     def deal(self):
-        self.hand += requests.get(
+        self.hand = requests.get(
             f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2"
         ).json()["cards"]
-        self.dealer_hand += requests.get(
+        self.dealer_hand = requests.get(
             f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=2"
         ).json()["cards"]
 
@@ -43,10 +47,26 @@ class Blackjack:
             self.hand += requests.get(
                 f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1"
             ).json()["cards"]
+            if self.score('Player') > 21:
+                self.game_over = True
+                self.player_turn = False
+                self.winner = 2 
         else:
             self.dealer_hand += requests.get(
                 f"https://deckofcardsapi.com/api/deck/{self.deck_id}/draw/?count=1"
             ).json()["cards"]
+            if self.score('Dealer') > 21:
+                self.game_over = True
+                self.winner = 1 
+
+    def dealer_move(self):
+        if self.player_turn:
+            raise Exception("Must be dealer's turn.")
+
+        if self.score('Dealer') <= 16:
+            self.hit()
+        else:
+            self.stand()
 
     def get_value(self, code: str):
         '''
@@ -88,13 +108,43 @@ class Blackjack:
         return total_value
 
     def stand(self):
-        self.player_turn = not self.player_turn
+        if not self.player_turn:
+            self.game_over = True
 
+        else:
+            self.player_turn = not self.player_turn
+    
+    def get_winner(self):
+        if self.player_turn or not self.game_over:
+            return 0 
+        
+        if self.winner != 0:
+            return self.winner
 
-    def end_game(self):
+        if self.score('Player') > self.score('Dealer'):
+            return 1 
+        elif self.score('Player') < self.score('Dealer'):
+            return 2 
+        return 0# draw
+    
+    def reset_game(self):
+        requests.get(
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/return/"
+        )
+
+        requests.get(
+            f"https://deckofcardsapi.com/api/deck/{self.deck_id}/shuffle/"
+        )
+        self.bet = 0 
+
         self.game_active = False
-        if self.winner:
-            return self.bet * 2
+        self.hand = [1, 1]
+        self.dealer_hand = [1, 1]
+        self.player_turn = True
+        self.winner = False
+        self.game_over = False
+
+
 
 if __name__ == "__main__":
     pass
