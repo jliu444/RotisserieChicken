@@ -176,7 +176,8 @@ class Poker:
         data = response.json()
         self.deck_id = data["deck_id"]
         self.board_cards = []
-        self.hole_cards = [[], []]
+        self.hole_cards = [[1, 1], [1, 1]]
+        self.final_hands = ["", ""]
 
         # Constants
         self.PLAYER = 0
@@ -190,6 +191,8 @@ class Poker:
         self.winner = None
         self.is_game_over = False
         self.is_game_active = False
+        self.has_made_action = [False, False]
+        self.round = 0
 
     def set_chips(self, num_chips: int):
         self.max_chips = num_chips
@@ -204,11 +207,15 @@ class Poker:
         return self.draw(1)
 
     def deal_board(self, num: int):
+        self.reset_round()
+        self.round += 1
+
         card_info = self.draw(num)["cards"]
         for i in range(len(card_info)):
             self.board_cards.append(card_info[i])
 
     def check_or_call(self):
+        self.has_made_action[self.player_to_move] = True
         opp_bet = self.round_bets[self.next_player()]
         curr_bet = self.round_bets[self.player_to_move]
         to_bet = opp_bet - curr_bet
@@ -228,18 +235,23 @@ class Poker:
         return to_bet
 
     def make_bet_or_raise_to(self, amt: int):
+        self.has_made_action[self.next_player()] = False
+        self.has_made_action[self.player_to_move] = True
+
         if amt <= max(self.round_bets):
-            raise ValueError("Bet/Raise amount must be greater than opponent's bet.")
+            return "Bet/Raise amount must be greater than opponent's bet."
 
         curr_bet = self.round_bets[self.player_to_move]
         to_bet = amt - curr_bet
 
         if self.stakes[self.player_to_move] + to_bet > self.max_chips:
-            raise ValueError("Bet/Raise amount exceeds player's chip count.")
+            return "Bet/Raise amount exceeds player's chip count."
 
         self.stakes[self.player_to_move] += to_bet
         self.round_bets[self.player_to_move] += to_bet
         self.player_to_move = self.next_player()
+
+        return "" # no error
 
     def fold(self):
         winner = self.next_player()
@@ -260,6 +272,7 @@ class Poker:
 
         player_value = player_hand.value
         opponent_value = opponent_hand.value
+        self.final_hands = [player_hand.hand, opponent_hand.hand]
 
         if player_value > opponent_value:
             self.winner = self.PLAYER
@@ -268,7 +281,12 @@ class Poker:
 
         self.is_game_over = True
 
-    def reset_round_bets(self):
+    def is_betting_round_over(self):
+        return self.has_made_action[self.PLAYER] and \
+            self.has_made_action[self.OPPONENT]
+
+    def reset_round(self):
+        self.has_made_action = [False, False]
         self.round_bets = [0, 0]
 
     def draw(self, num: int):
@@ -299,13 +317,23 @@ class Poker:
         )
 
         self.board_cards = []
-        self.hole_cards = []
+        self.hole_cards = [[1, 1], [1, 1]]
+        self.final_hands = ["", ""]
+
+        # Constants
+        self.PLAYER = 0
+        self.OPPONENT = 1
+
+        # Game state
         self.player_to_move = self.PLAYER
         self.max_chips = player_chips
-        self.stakes = [0, 0]
-        self.round_bets = [0, 0]
+        self.stakes = [0, 0] # 0 <= stakes <= max_chips
+        self.round_bets = [0, 0] # reset to [0, 0] every betting round
         self.winner = None
         self.is_game_over = False
+        self.is_game_active = False
+        self.has_made_action = [False, False]
+        self.round = 0
 
 if __name__ == "__main__":
     pass

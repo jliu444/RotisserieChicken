@@ -44,15 +44,19 @@
           <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">
             <h3 class="w-full p-2 uppercase font-bold text-center bg-gray-500">Amount to Withdraw</h3>
             <form action=" # " method="POST" class="px-2 m-5"><input 
-              class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" maxlength="12" type="text" value=""></form>
+              class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" maxlength="12" type="text" name="withdraw" value="">
+              <input 
+          class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="REDEEM">
+            </form>
+        <h3 class="p-2 text-black-500">{{ msg | safe }}</h3>
           </div>
       </div>
 
-      <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
+      <!-- <div class="my-5 mx-5 bg-gray-400 flex flex-col items-center">        
         <h3 class="p-2 uppercase font-bold text-center bg-gray-500">Redeem All Balance</h3>
         <form action=" # " method="POST" class="px-2 m-5"><input 
           class="font-semibold bg-gray-800 rounded-lg text-white hover:bg-white hover:text-gray-800 py-3 px-5" type="submit" value="REDEEM"></form>
-      </div>
+      </div> -->
     </div>
 
   </body>

@@ -118,3 +118,7 @@ added restart function for solitaire
 jakeL -- 2025-12-18 20:55
 created layout for poker.html
 basic dealing logic
+
+jakeL -- 2025-12-20 22:32
+big commit: finished implementing poker
+added withdrawing money into account

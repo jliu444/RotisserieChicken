@@ -11,6 +11,7 @@ app.secret_key = "testing"
 DB_FILE = "data.db"
 
 poker_game: poker.Poker = None
+poker_deal_amts = [3, 1, 1]
 solitaire_deck = None
 tarot_deck = Tarot()
 
@@ -33,8 +34,10 @@ def startup():
 
 @app.route("/logout")
 def logout():
-  session.pop('username', None)
-  return redirect(url_for('startup'))
+    session.pop('username', None)
+    global poker_game
+    poker_game = None
+    return redirect(url_for('startup'))
 
 @app.route("/change_username", methods=["GET", "POST"])
 def change_username():
@@ -96,7 +99,24 @@ def change():
 
 @app.route('/charge', methods=["GET", "POST"])
 def charge():
-    return render_template('charge.html', username=session['username'])
+    msg = ""
+    if request.method == "POST":
+        print("in11")
+        if request.form.get("withdraw") != None:
+            print("in")
+            try:
+                withdraw_amt = int(request.form.get("withdraw"))
+                username=session['username']
+                db = sqlite3.connect(DB_FILE)
+                c = db.cursor()
+                cmd = "UPDATE user_info SET bal=bal + ? WHERE user =?"
+                c.execute(cmd, (withdraw_amt, username))
+                db.commit()
+                db.close()
+                msg = f"Successfully withdrew ${withdraw_amt}"
+            except ValueError:
+                msg = "Withdraw amount must be an integer value!"
+    return render_template('charge.html', username=session['username'], msg=msg)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -114,8 +134,6 @@ def login():
             return render_template('login.html', text=text)
         else:
             session['username'] = username
-            global poker_game
-            poker_game = None
             return redirect(url_for('floor'))
     return render_template('login.html', text='')
 
@@ -153,6 +171,80 @@ def poker_page():
     if poker_game == None:
         poker_game = poker.Poker(0)
 
+    is_betting = False
+    error = ""
+
+
+    if not poker_game.is_game_active:
+        username=session['username']
+        db = sqlite3.connect(DB_FILE)
+        c = db.cursor()
+        cmd = "SELECT * FROM user_info WHERE user =?"
+        c.execute(cmd, (username,))
+        user_data = c.fetchone()
+        db.close()
+        poker_game.set_chips(user_data[2])
+
+    if poker_game.is_game_active and \
+        poker_game.player_to_move == poker_game.OPPONENT:
+        poker_game.check_or_call() # placeholder
+
+    if poker_game.is_betting_round_over():
+        if len(poker_game.board_cards) >= 5:
+            poker_game.showdown()
+    
+            if poker_game.winner == poker_game.PLAYER:
+                username=session['username']
+                db = sqlite3.connect(DB_FILE)
+                c = db.cursor()
+                cmd = "UPDATE user_info SET bal=bal + ? WHERE user =?"
+                c.execute(cmd, (sum(poker_game.stakes), username))
+                db.commit()
+                db.close()
+        else: 
+            poker_game.burn_card()
+            poker_game.deal_board(poker_deal_amts[poker_game.round])   
+
+    if request.method == 'POST':
+        if request.form.get('start_game') == 'DEAL':
+            poker_game.is_game_active = True
+            poker_game.deal_hole()
+
+        if not poker_game.is_game_over and \
+            poker_game.player_to_move == poker_game.PLAYER:
+            action = request.form.get('player_action')
+            if action == 'FOLD':
+                poker_game.fold()
+            elif action == 'CHECK':
+                poker_game.check_or_call()
+            elif action == 'BET':
+                is_betting = True
+
+            if request.form.get("bet_amt") != None:
+                try:
+                    bet_amt = int(request.form.get("bet_amt"))
+                    error = poker_game.make_bet_or_raise_to(bet_amt)
+
+                    username=session['username']
+                    db = sqlite3.connect(DB_FILE)
+                    c = db.cursor()
+                    cmd = "UPDATE user_info SET bal=bal - ? WHERE user =?"
+                    c.execute(cmd, (bet_amt, username))
+                    db.commit()
+                    db.close()
+                except ValueError:
+                    error = "Bet size must be an integer value!"
+        if poker_game.is_game_over:
+            if request.form.get('player_action') == 'RESTART':
+                username=session['username']
+                db = sqlite3.connect(DB_FILE)
+                c = db.cursor()
+                cmd = "SELECT * FROM user_info WHERE user =?"
+                c.execute(cmd, (username,))
+                user_data = c.fetchone()
+                db.close()
+                poker_game.reset_game(user_data[2])
+
     username=session['username']
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
@@ -160,25 +252,21 @@ def poker_page():
     c.execute(cmd, (username,))
     user_data = c.fetchone()
     db.close()
-
-    if not poker_game.is_game_active:
-        poker_game.set_chips(user_data[2])
-
-    if request.method == 'POST':
-        if 'start_game' in request.form and request.form['start_game'] == 'deal':
-            poker_game.is_game_active = True
-            poker_game.deal_hole()
-
-        if poker_game.is_game_active:
-            if 'bet' in request.form and request.form['bet'] == 'next':
-                poker_game.deal_board(1)
-
+               
     return render_template(
         'poker.html',
         is_game_active=poker_game.is_game_active,
         opponent_hand=poker_game.hole_cards[1],
         player_hand=poker_game.hole_cards[0],
-        board=poker_game.board_cards
+        board=poker_game.board_cards,
+        is_player_turn=(poker_game.player_to_move == poker_game.PLAYER),
+        is_betting=is_betting,
+        pot=sum(poker_game.stakes),
+        error=error,
+        final_hand=poker_game.final_hands,
+        is_game_over=poker_game.is_game_over,
+        winner=poker_game.winner,
+        balance=user_data[2]
     )
 
 @app.route('/reset_tarot', methods=["GET", "POST"])
