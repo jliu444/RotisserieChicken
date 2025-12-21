@@ -62,7 +62,10 @@ class Solitaire:
         self.active_pile2 = ''
 
     def card_location(self, pile, card):
-        return self.card_dict[pile].index(card)
+        if self.card_dict[pile] != []:
+            return self.card_dict[pile].index(card)
+        else:
+            return 0
 
     def t_valid(self):
         #you can never move a card into a spot that isn't at the top of a tableau
@@ -81,6 +84,8 @@ class Solitaire:
         return False
 
     def f_valid(self):
+        if self.card_location(self.active_pile, self.active_card) != 0:
+            return False
         ac_number = self.getNumber(self.active_card)
         if self.card_dict[self.active_pile2] == []:
             if ac_number == 1:
@@ -107,6 +112,17 @@ class Solitaire:
         return ac_color
 
     def play(self):
+        #always have a pile and card selected
+        if not self.active_pile or not self.active_card:
+            self.endMove()
+            return
+        
+        #cannot use empty tableau, waste, or empty foundation
+        if self.active_pile == 'waste' or 'tableau' in self.active_pile or 'foundation' in self.active_pile:
+            if self.card_dict[self.active_pile] == []:
+                self.endMove()
+                return
+
         # if active card is from STOCK, move it to WASTE
         if self.active_pile == 'stock':
             # restock stock pile if empty
@@ -120,15 +136,18 @@ class Solitaire:
             self.flip_top('waste')
             # no need for second decision
             self.endMove()
+            return
 
         # if active card is from TABLEAU and is hidden, flip it
-        elif 'tableau' in self.active_pile and self.active_card[3] == 'back':
+        if 'tableau' in self.active_pile and self.card_location(self.active_pile, self.active_card) == 0  and self.active_card[3] == 'back':
             self.flip_top(self.active_pile)
             self.endMove()
+            return 
 
         # in all other cases, if card is still hidden, move cannot be made
-        elif self.active_card[3] == 'back':
+        if self.active_card[3] == 'back':
             self.endMove()
+            return
 
         else:
             # if target location is TABLEAU
@@ -140,12 +159,14 @@ class Solitaire:
                     for i in range (self.card_location(self.active_pile,self.active_card), -1, -1):
                         self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(i))
                 self.endMove()
+                return 
             if 'foundation' in self.active_pile2:
                 print('foundation seen')
                 if self.f_valid():
                     print('foundation validated')
                     self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
                 self.endMove()
+                return
 
             # always make sure that even if active_card is taken from waste, next card is available for use
             if self.isEmpty('waste') == False:
