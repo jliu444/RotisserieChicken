@@ -184,15 +184,14 @@ def poker_page():
     error = ""
 
 
-    if not poker_game.is_game_active:
-        username=session['username']
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        cmd = "SELECT * FROM user_info WHERE user =?"
-        c.execute(cmd, (username,))
-        user_data = c.fetchone()
-        db.close()
-        poker_game.set_chips(user_data[2])
+    username=session['username']
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    cmd = "SELECT * FROM user_info WHERE user =?"
+    c.execute(cmd, (username,))
+    user_data = c.fetchone()
+    db.close()
+    poker_game.set_chips(user_data[2])
 
     if poker_game.is_game_active and \
         poker_game.player_to_move == poker_game.OPPONENT:
