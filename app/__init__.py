@@ -198,21 +198,6 @@ def poker_page():
         poker_game.player_to_move == poker_game.OPPONENT:
         poker_game.check_or_call() # placeholder
 
-    if poker_game.is_betting_round_over():
-        if len(poker_game.board_cards) >= 5:
-            poker_game.showdown()
-    
-            if poker_game.winner == poker_game.PLAYER:
-                username=session['username']
-                db = sqlite3.connect(DB_FILE)
-                c = db.cursor()
-                cmd = "UPDATE user_info SET bal=bal + ? WHERE user =?"
-                c.execute(cmd, (sum(poker_game.stakes), username))
-                db.commit()
-                db.close()
-        else: 
-            poker_game.burn_card()
-            poker_game.deal_board(poker_deal_amts[poker_game.round])   
 
     if request.method == 'POST':
         if request.form.get('start_game') == 'DEAL':
@@ -257,6 +242,22 @@ def poker_page():
                 user_data = c.fetchone()
                 db.close()
                 poker_game.reset_game(user_data[2])
+                
+    if poker_game.is_betting_round_over():
+        if len(poker_game.board_cards) >= 5:
+            poker_game.showdown()
+    
+            if poker_game.winner == poker_game.PLAYER:
+                username=session['username']
+                db = sqlite3.connect(DB_FILE)
+                c = db.cursor()
+                cmd = "UPDATE user_info SET bal=bal + ? WHERE user =?"
+                c.execute(cmd, (sum(poker_game.stakes), username))
+                db.commit()
+                db.close()
+        else: 
+            poker_game.burn_card()
+            poker_game.deal_board(poker_deal_amts[poker_game.round])   
 
     username=session['username']
     db = sqlite3.connect(DB_FILE)
