@@ -191,7 +191,8 @@ def poker_page():
     c.execute(cmd, (username,))
     user_data = c.fetchone()
     db.close()
-    poker_game.set_chips(user_data[2])
+    if user_data[2] > poker_game.max_chips:
+        poker_game.set_chips(user_data[2])
 
     if poker_game.is_game_active and \
         poker_game.player_to_move == poker_game.OPPONENT:
