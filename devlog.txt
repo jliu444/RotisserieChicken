@@ -141,3 +141,6 @@ removed visible remnants of game history function (just in case)
 
 cindyL -- 2025-12-21 22:25
 fixed edge case in which waste pile wasn't always properly updated after moves
+
+jakeL -- 2025-12-22 22:33
+finished blackjack
