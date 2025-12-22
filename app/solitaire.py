@@ -69,6 +69,7 @@ class Solitaire:
         self.active_pile = ''
         self.active_card2 = []
         self.active_pile2 = ''
+        self.clean_waste()
 
     def card_location(self, pile, card):
         if self.card_dict[pile] != []:
@@ -119,6 +120,14 @@ class Solitaire:
         if card[2] == 'DIAMONDS' or card[2] == 'HEARTS': ac_color = 'red'
         else: ac_color= 'black'
         return ac_color
+
+    def clean_waste(self):
+        # always make sure that even if active_card is taken from waste, next card is available for use
+        if self.isEmpty('waste') == False:
+            for i in self.card_dict['waste']:
+                i[3] == 'back'
+            if self.card_dict['waste'][0][3] == 'back':
+                self.flip_top('waste')
 
     def play(self):
         #always have a pile and card selected
@@ -176,11 +185,8 @@ class Solitaire:
                     self.card_dict[self.active_pile2].insert(0, self.card_dict[self.active_pile].pop(0))
                 self.endMove()
                 return
-
-            # always make sure that even if active_card is taken from waste, next card is available for use
-            if self.isEmpty('waste') == False:
-                if self.card_dict['waste'][0][3] == 'back':
-                    self.flip_top('waste')
+        return
+                
 
     def __init__(self):
         # create the deck

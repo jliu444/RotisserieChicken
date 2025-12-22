@@ -57,16 +57,17 @@
   <h2 class="text-3xl text-center"><form action="{{ url_for('solitaire_setup') }}"><input type="submit" value="restart"></form></h2>
   <!-- SHOWS FULL DICTIONARY OF CARDS, FOR TESTING
   <p>
-    {% for key, value in test_text.items() %}
-      {{ key }}
+  {% for key, value in test_text.items() %}
+    {{ key }}
+    <br>
+    {% for i in value %}
+      {{ i }}
       <br>
-      {% for i in value %}
-        {{ i }}
-        <br>
-      {% endfor %}
     {% endfor %}
-  </p>
+  {% endfor %}
+</p>
 -->
+
   {% if test_text['foundation1']|length == 13 and test_text['foundation2']|length == 13 and test_text['foundation3']|length == 13 and test_text['foundation4']|length == 13%}
     <h1 class="text-3xl text-center">GAME COMPLETE!</h1>
   {% else %}
